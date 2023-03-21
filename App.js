@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import CreateAccount from './CreateAccount';
 import LogIn from './LogIn';
+import HowToPlay from './HowToPlay';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ export default function App() {
         />
         <Stack.Screen name="Create Account" component={CreateAccount} />
         <Stack.Screen name="Log In" component={LogIn} />
+        <Stack.Screen name="How to Play" component={HowToPlay} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
@@ -41,7 +43,10 @@ function HomeScreen({ navigation }) {
       >
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.navigate('How to Play')}
+      >
         <Text style={styles.buttonText}>How to Play</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
