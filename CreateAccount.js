@@ -1,38 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import About from './About';
-import CreateAccount from './CreateAccount';
-
-const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ title: 'Murder in Aggieland' }}
-        />
-        <Stack.Screen name="About" component={About} />
-        <Stack.Screen name="Create Account" component={CreateAccount} />
-      </Stack.Navigator>
-      <StatusBar style="auto" />
-    </NavigationContainer>
-  );
-}
-
-function HomeScreen({ navigation }) {
-  return (
-     <View style={styles.container}>
-      <Text style={styles.header}>Murder in Aggieland</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Create Account')}
-      >
+    <View style={styles.container}>
+      <Text style={styles.header}>Murder in Aggieland!</Text>
+      <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Create an Account</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
