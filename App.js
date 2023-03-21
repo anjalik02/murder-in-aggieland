@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import CreateAccount from './CreateAccount';
+import LogIn from './LogIn';
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
           options={{ title: 'Murder in Aggieland' }}
         />
         <Stack.Screen name="Create Account" component={CreateAccount} />
+        <Stack.Screen name="Log In" component={LogIn} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
@@ -33,7 +35,10 @@ function HomeScreen({ navigation }) {
       >
         <Text style={styles.buttonText}>Create an Account</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.navigate('Log In')}
+      >
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
