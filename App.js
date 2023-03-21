@@ -3,7 +3,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import About from './About';
 import CreateAccount from './CreateAccount';
 
 const Stack = createStackNavigator();
@@ -17,7 +16,6 @@ export default function App() {
           component={HomeScreen}
           options={{ title: 'Murder in Aggieland' }}
         />
-        <Stack.Screen name="About" component={About} />
         <Stack.Screen name="Create Account" component={CreateAccount} />
       </Stack.Navigator>
       <StatusBar style="auto" />
