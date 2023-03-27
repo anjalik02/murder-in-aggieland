@@ -7,7 +7,6 @@ export default function LogIn({ navigation }) {
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Here you can add code to handle the login logic
     console.log(`Logging in. Username: ${username} Password: ${password}`);
 
     fetch('https://murder-in-aggieland.herokuapp.com/API/users.php', 
@@ -33,6 +32,11 @@ export default function LogIn({ navigation }) {
       }
       else{
         alert("Success");
+        
+        navigation.navigate('User Home', {
+          user_id: data.user_id,
+          username: data.username
+        });
       }
     })
     .catch(error => {

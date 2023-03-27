@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import CreateAccount from './CreateAccount';
 import LogIn from './LogIn';
 import HowToPlay from './HowToPlay';
+import UserHome from './UserHome';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ export default function App() {
         <Stack.Screen name="Create Account" component={CreateAccount} />
         <Stack.Screen name="Log In" component={LogIn} />
         <Stack.Screen name="How to Play" component={HowToPlay} />
+        <Stack.Screen name="User Home" component={UserHome} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
