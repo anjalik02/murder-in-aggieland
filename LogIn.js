@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 
 export default function LogIn({ navigation }) {
   const [username, setUsername] = useState('');
@@ -44,7 +44,11 @@ export default function LogIn({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView 
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : null}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
+    >
       <Text style={styles.header}>Enter the username and password</Text>
       <TextInput
         style={styles.input}
@@ -63,7 +67,7 @@ export default function LogIn({ navigation }) {
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

@@ -17,7 +17,8 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
-          options={{ title: 'Murder in Aggieland' }}
+          options={{ title: 'Murder in Aggieland',
+          headerShown: false}}
         />
         <Stack.Screen name="Create Account" component={CreateAccount} />
         <Stack.Screen name="Log In" component={LogIn} />

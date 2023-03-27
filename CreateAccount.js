@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
 
 export default function CreateAccount({ navigation }) {
   const [username, setUsername] = useState('');
@@ -39,7 +39,7 @@ export default function CreateAccount({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Text style={styles.header}>Enter a username and password</Text>
       <TextInput
         style={styles.input}
@@ -64,7 +64,7 @@ export default function CreateAccount({ navigation }) {
         <Text style={styles.buttonText}>Create</Text>
       </TouchableOpacity>
       <StatusBar style="auto" />
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
