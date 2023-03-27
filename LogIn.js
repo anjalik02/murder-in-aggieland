@@ -2,13 +2,43 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 
-export default function LogIn() {
+export default function LogIn({ navigation }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
     // Here you can add code to handle the login logic
-    console.log(`Username: ${username} Password: ${password}`);
+    console.log(`Logging in. Username: ${username} Password: ${password}`);
+
+    fetch('https://murder-in-aggieland.herokuapp.com/API/users.php', 
+    {
+        method: 'POST',
+        headers: 
+        {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(
+        {
+            functionName: "verifyCredentials",
+            username: username,
+            password: password,
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      if(data.message === "Failed to verify credentials"){
+        alert("Login Failed");
+      }
+      else{
+        alert("Success");
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert("Error");
+    });
   }
 
   return (

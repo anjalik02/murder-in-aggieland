@@ -2,18 +2,52 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native';
 
-export default function CreateAccount() {
+export default function CreateAccount({ navigation }) {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-    // Here you can add code to handle the login logic
-    console.log(`Username: ${username} Password: ${password}`);
+    console.log(`Creating account. Username: ${username} Password: ${password}`);
+
+    fetch('https://murder-in-aggieland.herokuapp.com/API/users.php', 
+    {
+        method: 'POST',
+        headers: 
+        {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(
+        {
+          functionName: 'addUser',
+          username: username,
+          email: email,
+          password: password
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      alert("Success");
+      navigation.navigate('Log In');
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      alert("Error");
+    });
+
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Enter a username and password</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        onChangeText={setEmail}
+        value={email}
+      />
       <TextInput
         style={styles.input}
         placeholder="Username"
