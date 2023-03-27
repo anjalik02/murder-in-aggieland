@@ -31,8 +31,6 @@ export default function LogIn({ navigation }) {
         alert("Login Failed");
       }
       else{
-        alert("Success");
-        
         navigation.navigate('User Home', {
           user_id: data.user_id,
           username: data.username

@@ -1,30 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
-const Stack = createStackNavigator();
 
 export default function UserHome({route, navigation}) {
   const { user_id, username } = route.params;
 
-    return (
-        <View style={styles.container}>
-         <Text style={styles.header}>Welcome, {username}</Text>
-         <TouchableOpacity
-           style={styles.button}
-         >
-           <Text style={styles.buttonText}>Resume Game</Text>
-         </TouchableOpacity>
-         <TouchableOpacity 
-           style={styles.button}
-         >
-           <Text style={styles.buttonText}>Start New Game</Text>
-         </TouchableOpacity>
-         <StatusBar style="auto" />
-       </View>
-     );
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Welcome, {username}</Text>
+
+      <Text style={styles.subheader}>Current Games</Text>
+      <TouchableOpacity
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Resume Game</Text>
+      </TouchableOpacity>
+      <Text style={styles.subheader}>New Game</Text>
+      <TouchableOpacity 
+        style={styles.button}
+      >
+        <Text style={styles.buttonText}>Start New Game</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.subheader}>Start New Game</Text>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={() => navigation.navigate('Home')}
+      >
+        <Text style={styles.buttonText}>Logout</Text>
+      </TouchableOpacity>
+
+      <StatusBar style="auto" />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -39,6 +47,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  subheader: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
   button: {
     backgroundColor: '#fff',

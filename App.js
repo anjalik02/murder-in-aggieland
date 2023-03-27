@@ -22,7 +22,7 @@ export default function App() {
         <Stack.Screen name="Create Account" component={CreateAccount} />
         <Stack.Screen name="Log In" component={LogIn} />
         <Stack.Screen name="How to Play" component={HowToPlay} />
-        <Stack.Screen name="User Home" component={UserHome} />
+        <Stack.Screen name="User Home" component={UserHome} options={{headerShown: false}}/>
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

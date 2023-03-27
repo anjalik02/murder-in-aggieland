@@ -29,7 +29,6 @@ export default function CreateAccount({ navigation }) {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      alert("Success");
       navigation.navigate('Log In');
     })
     .catch(error => {
