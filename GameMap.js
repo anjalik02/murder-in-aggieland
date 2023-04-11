@@ -33,8 +33,8 @@ export default function GameMap({route, navigation}){
       setLongitude(location.coords.longitude);
       let leftx = 30.621923; 
       let lefty = 96.348665; 
-      let diffy = 400-((leftx - location.coords.latitude) / 0.00003557); 
-      let diffx = (lefty - (location.coords.longitude * -1)) / 0.0000408; 
+      let diffy = 400-((leftx - location.coords.latitude) / 0.000025); 
+      let diffx = (lefty - (location.coords.longitude * -1)) / 0.00009; 
       
       
       setycoordinate(diffy); 
@@ -55,8 +55,8 @@ export default function GameMap({route, navigation}){
       setLongitude(location.coords.longitude);
       let leftx = 30.621923; 
       let lefty = 96.348665; 
-      let diffy = 400-((leftx - location.coords.latitude) / 0.00003557); 
-      let diffx = (lefty - (location.coords.longitude * -1)) / 0.0000408; 
+      let diffy = 400-((leftx - location.coords.latitude) / 0.000028); 
+      let diffx = (lefty - (location.coords.longitude * -1)) / 0.0000908; 
       setycoordinate(diffy); 
       setxcoordinate(diffx); 
       setLocation(location);
