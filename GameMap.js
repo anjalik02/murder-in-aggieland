@@ -6,15 +6,20 @@ import * as Location from 'expo-location';
 import {Image} from 'react-native' ;
 
 export default function GameMap({route, navigation}){
-    //const{user_id, username} = route.params; 
+    const{user_id, username} = route.params; 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const [latitude, setLatitude] = useState(null);
     const [longitude, setLongitude] = useState(null);
     const[xcoordinate, setxcoordinate] = useState(null); 
     const[ycoordinate, setycoordinate] = useState(null); 
+    const[currentXDestination, setcurrentXDestination] = useState(null);
+    const[currentYDestination, setcurrentYDestination] = useState(null);
     
-  
+    const handleArrival = () => 
+    {
+      alert("You've arrived at the location!");
+    }
 
     const update = async () => 
     {
@@ -49,6 +54,34 @@ export default function GameMap({route, navigation}){
       };
     
       startUpdating();
+
+      console.log("user_id: " + user_id);
+      // const params = new URLSearchParams(
+      //   {
+      //       functionName: 'getCurrentDestination',
+      //       user_id: user_id
+      //   });
+          
+      //   fetch(`https://murder-in-aggieland.herokuapp.com/API/users.php?${params}`, 
+      //   {
+      //       method: 'GET',
+      //       headers: 
+      //       {
+      //           'Content-Type': 'application/json',
+      //           'Access-Control-Allow-Origin': '*'
+      //       }
+      //   })
+      //   .then(response => response.json())
+      //   .then(data => {
+      //     console.log(data);
+      //     if(data.message === "Failed to get current games"){
+      //       alert("No game to resume.");
+      //     }
+      //     else{
+      //       navigation.navigate("Map"); 
+      //     }
+      //   })
+      //   .catch(error => {console.error('Error:', error);});
     
       return () => clearInterval(intervalId);
     }, []);
@@ -57,6 +90,9 @@ export default function GameMap({route, navigation}){
         <View style={styles.container}>
         <Text style={styles.header}> Latitude: {latitude}  </Text>
         <Text style={styles.header1}> Longitude:{longitude}  </Text>
+        <TouchableOpacity style={styles.button} onPress={handleArrival}>
+          <Text style={styles.buttonText}>I've Arrived</Text>
+        </TouchableOpacity>
         
         <Image 
         source={require('./assets/Design.png')} 
