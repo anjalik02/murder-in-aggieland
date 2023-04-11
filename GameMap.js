@@ -85,10 +85,12 @@ export default function GameMap({route, navigation}){
         style={{width: 400, height: 400, position: 'absolute', bottom: 0}}
         />
 
-        <Image 
-        source={require('./assets/rev.png')} 
-        style={{width: 30, height: 30, position: 'absolute', bottom: ycoordinate, left: xcoordinate}}
-        />
+        {xcoordinate !== null && ycoordinate !== null && (
+          <Image
+            source={require('./assets/rev.png')}
+            style={{width: 30, height: 30, position: 'absolute', bottom: ycoordinate, left: xcoordinate}}
+          />
+        )}
         </View>
     ); 
 }
