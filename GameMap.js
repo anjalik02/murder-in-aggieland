@@ -16,49 +16,36 @@ export default function GameMap({route, navigation}){
     
   
 
-    const update = async () => {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
-          return;
-        }
-        /*
-        const interval = setInterval(() => {
-        
-        }, 10000);
-        */
+    const update = async () => 
+    {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') 
+      {
+        setErrorMsg('Permission to access location was denied');
+        return;
+      }
+
       let location = await Location.getCurrentPositionAsync({});
-      // alert("Updated Location"); 
+
       setLatitude(location.coords.latitude);
       setLongitude(location.coords.longitude);
       let leftx = 30.621923; 
       let lefty = 96.348665; 
       let diffy = 400-((leftx - location.coords.latitude) / 0.000025); 
-      let diffx = (lefty - (location.coords.longitude * -1)) / 0.00009; 
-      
+      let diffx = (lefty - (location.coords.longitude * -1)) / 0.00009;
       
       setycoordinate(diffy); 
       setxcoordinate(diffx); 
       setLocation(location);
-
     }
 
-    useEffect(() => {
+    useEffect(() => 
+    {
       let intervalId;
     
       const startUpdating = async () => 
-      {
-        let { status } = await Location.requestForegroundPermissionsAsync();
-        if (status !== 'granted') {
-          setErrorMsg('Permission to access location was denied');
-          return;
-        }
-    
-        intervalId = setInterval(() => {
-          update();
-        }, 5000);
-    
-        update();
+      { 
+        intervalId = setInterval(() => {update();}, 5000);
       };
     
       startUpdating();
@@ -66,15 +53,6 @@ export default function GameMap({route, navigation}){
       return () => clearInterval(intervalId);
     }, []);
 
-    //testing code 
-    /*
-    let text = 'Waiting..';
-    if (errorMsg) {
-      text = errorMsg;
-    } else if (location) {
-      text = JSON.stringify(location);
-    }
-    */
     return(
         <View style={styles.container}>
         <Text style={styles.header}> Latitude: {latitude}  </Text>
