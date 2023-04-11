@@ -83,13 +83,13 @@ export default function GameMap({route, navigation}){
         <Text style={styles.buttonText}>Update Location</Text>
       </TouchableOpacity>
         <Image 
-        source={require('./assets/map.png')} 
+        source={require('./assets/Design.png')} 
         style={{width: 400, height: 400, position: 'absolute', bottom: 0}}
         />
 
         <Image 
-        source={require('./assets/icon1.jpg')} 
-        style={{width: 20, height: 20, position: 'absolute', bottom: ycoordinate, left: xcoordinate}}
+        source={require('./assets/rev.png')} 
+        style={{width: 40, height: 40, position: 'absolute', bottom: ycoordinate, left: xcoordinate}}
         />
         </View>
     ); 
