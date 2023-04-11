@@ -7,6 +7,7 @@ import CreateAccount from './CreateAccount';
 import LogIn from './LogIn';
 import HowToPlay from './HowToPlay';
 import UserHome from './UserHome';
+import GameMap from './GameMap';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ export default function App() {
         <Stack.Screen name="Log In" component={LogIn} />
         <Stack.Screen name="How to Play" component={HowToPlay} />
         <Stack.Screen name="User Home" component={UserHome} options={{headerShown: false}}/>
+        <Stack.Screen name = "Map" component = {GameMap} />
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>

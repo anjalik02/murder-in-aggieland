@@ -28,7 +28,7 @@ export default function UserHome({route, navigation}) {
           alert("No game to resume.");
         }
         else{
-          alert("TODO: Resume Game Page");
+          navigation.navigate("Map"); 
         }
       })
       .catch(error => {console.error('Error:', error);});
@@ -77,7 +77,7 @@ export default function UserHome({route, navigation}) {
           .catch(error => {console.error('Error:', error);});
         }
         else{
-          alert("TODO: Reset game");
+          navigation.navigate('Log in')
         }
       })
       .catch(error => {console.error('Error:', error);});
