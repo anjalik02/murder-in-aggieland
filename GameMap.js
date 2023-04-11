@@ -28,7 +28,7 @@ export default function GameMap({route, navigation}){
         }, 10000);
         */
       let location = await Location.getCurrentPositionAsync({});
-      alert("hello"); 
+      // alert("Updated Location"); 
       setLatitude(location.coords.latitude);
       setLongitude(location.coords.longitude);
       let leftx = 30.621923; 
@@ -44,23 +44,26 @@ export default function GameMap({route, navigation}){
     }
 
     useEffect(() => {
-      (async () => {
+      let intervalId;
+    
+      const startUpdating = async () => 
+      {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
           setErrorMsg('Permission to access location was denied');
           return;
         }
-      let location = await Location.getCurrentPositionAsync({});
-      setLatitude(location.coords.latitude);
-      setLongitude(location.coords.longitude);
-      let leftx = 30.621923; 
-      let lefty = 96.348665; 
-      let diffy = 400-((leftx - location.coords.latitude) / 0.000028); 
-      let diffx = (lefty - (location.coords.longitude * -1)) / 0.0000908; 
-      setycoordinate(diffy); 
-      setxcoordinate(diffx); 
-      setLocation(location);
-      })();
+    
+        intervalId = setInterval(() => {
+          update();
+        }, 5000);
+    
+        update();
+      };
+    
+      startUpdating();
+    
+      return () => clearInterval(intervalId);
     }, []);
 
     //testing code 
@@ -76,12 +79,7 @@ export default function GameMap({route, navigation}){
         <View style={styles.container}>
         <Text style={styles.header}> Latitude: {latitude}  </Text>
         <Text style={styles.header1}> Longitude:{longitude}  </Text>
-        <TouchableOpacity
-        style={styles.button}
-        onPress={update}
-        >
-        <Text style={styles.buttonText}>Update Location</Text>
-      </TouchableOpacity>
+        
         <Image 
         source={require('./assets/Design.png')} 
         style={{width: 400, height: 400, position: 'absolute', bottom: 0}}
@@ -89,7 +87,7 @@ export default function GameMap({route, navigation}){
 
         <Image 
         source={require('./assets/rev.png')} 
-        style={{width: 40, height: 40, position: 'absolute', bottom: ycoordinate, left: xcoordinate}}
+        style={{width: 30, height: 30, position: 'absolute', bottom: ycoordinate, left: xcoordinate}}
         />
         </View>
     ); 
