@@ -4,22 +4,149 @@ import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingVi
 import axios from 'axios'; 
 import * as Location from 'expo-location';
 import {Image} from 'react-native' ;
+import { useIsFocused } from '@react-navigation/native'
 
 export default function GameMap({route, navigation}){
     const{user_id, username, game_id} = route.params; 
-    const [location, setLocation] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
-    const[xcoordinate, setxcoordinate] = useState(null); 
-    const[ycoordinate, setycoordinate] = useState(null); 
-    const[currentXDestination, setcurrentXDestination] = useState(null);
-    const[currentYDestination, setcurrentYDestination] = useState(null);
-    const[startXDestination, setstartXDestination] = useState(null);
-    const[startYDestination, setstartYDestination] = useState(null);
-    const[hasStarted, sethasStarted] = useState(null);
-    
-    const handleArrival = () => 
+    const[currentLocation, setCurrentLocation] = useState(null);
+    const[errorMsg, setErrorMsg] = useState(null);
+    const[revLongitude, setRevLongitude] = useState(null); 
+    const[revLatitude, setRevLatitude] = useState(null); 
+    const[longitudeDestination, setLongitudeDestination] = useState(null);
+    const[latitudeDestination, setLatitudeDestination] = useState(null);
+    const[startingLongitude, setStartingLongitude] = useState(null);
+    const[startingLatitude, setStartingLatitude] = useState(null);
+    const[introductionComplete, setIntroductionComplete] = useState(null);
+    const isFocused = useIsFocused()
+
+    const rePopulateData = async () =>
     {
-      alert(startXDestination+" "+startYDestination+" "+hasStarted+" "+currentXDestination+" "+currentYDestination);
+      console.log("user_id: " + user_id);
+      console.log("game_id: " + game_id);
+      
+      updateLocation();
+      getStartDestination();
+      checkHasGameStarted();
+    }
+
+    useEffect(() => {
+      if(isFocused)
+      {
+          setCurrentLocation(null);
+          setErrorMsg(null);
+          setRevLongitude(null);
+          setRevLatitude(null);
+          setLongitudeDestination(null);
+          setLatitudeDestination(null);
+          setStartingLongitude(null);
+          setStartingLatitude(null);
+          setIntroductionComplete(null);
+
+          rePopulateData();
+      }
+    }, [isFocused])
+
+    const handleArrival = async () => 
+    {
+      if(introductionComplete == true)
+      {
+        try 
+        {
+          const response = await fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
+          {
+            method: 'POST',
+            headers: 
+            {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify(
+            {
+              functionName: "checkUserReachedLocation",
+              user_id: user_id,
+              game_id: game_id,
+              latitude: currentLocation.coords.latitude,
+              longitude: currentLocation.coords.longitude
+            })
+          });
+          const data = await response.json();
+          
+          let hasReached = true;
+
+          if(!hasReached)
+            alert("You have not reached the building's location.")
+          else
+          {
+            try 
+            {
+              const response = await fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
+              {
+                method: 'POST',
+                headers: 
+                {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify(
+                {
+                  functionName: "updateUserGamePriority",
+                  user_id: user_id,
+                  game_id: game_id
+                })
+              });
+              const data = await response.json();
+
+              navigation.navigate('Dialogue', 
+              {
+                user_id: user_id,
+                username: username,
+                game_id: game_id
+              });    
+            } 
+            catch (error) 
+            {
+              console.error('Error:', error);
+            }
+          }
+        } 
+        catch (error) 
+        {
+          console.error('Error:', error);
+        }
+      }
+      else
+      {
+        try 
+        {
+          const response = await fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
+          {
+            method: 'POST',
+            headers: 
+            {
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify(
+            {
+              functionName: "checkUserReachedStartLocation",
+              user_id: user_id,
+              game_id: game_id,
+              latitude: currentLocation.coords.latitude,
+              longitude: currentLocation.coords.longitude
+            })
+          });
+          const data = await response.json();
+          
+          let hasReached = data.reached_location;
+
+          if(!hasReached)
+            alert("You have not reached the start location.")
+        } 
+        catch (error) 
+        {
+          console.error('Error:', error);
+        }
+      }
     }
 
     function sleep(ms) {
@@ -40,46 +167,53 @@ export default function GameMap({route, navigation}){
 
       loc.coords.latitude = parseFloat(loc.coords.latitude.toFixed(6));
       loc.coords.longitude = parseFloat(loc.coords.longitude.toFixed(6));
-      setLocation(loc);
+      setCurrentLocation(loc);
     }
 
     useEffect(() => 
     {
-      if(location != null)
+      if(currentLocation != null)
       {
-        let leftx = 30.621923; 
-        let lefty = 96.348665; 
-        let diffy = 400-((leftx - location.coords.latitude) / 0.000025); 
-        let diffx = (lefty - (location.coords.longitude * -1)) / 0.00009;
-        setycoordinate(diffy);
-        setxcoordinate(diffx);
+        let latitude = 30.621923; 
+        let longitude = 96.348665; 
+        let latitudeDiff = 400-((latitude - currentLocation.coords.latitude) / 0.000025); 
+        let longitudeDiff = (longitude - (currentLocation.coords.longitude * -1)) / 0.00009;
+        setRevLatitude(latitudeDiff);
+        setRevLongitude(longitudeDiff);
 
-        console.log("New Location: "+location.coords.latitude+" "+location.coords.longitude);
+        console.log("New Rev Location: "+currentLocation.coords.latitude+" "+currentLocation.coords.longitude);
+        console.log("Current Destination: "+latitudeDestination+" "+longitudeDestination);
         updateLocation();
       }
-    }, [location]);
+    }, [currentLocation]);
 
     const getStartDestination = async () =>
     {
-      try {
-        const params = new URLSearchParams({
+      try 
+      {
+        const params = new URLSearchParams(
+        {
           functionName: 'getStartDestination',
           game_id: game_id
         });
       
-        const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/game.php?${params}`, {
+        const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/game.php?${params}`, 
+        {
           method: 'GET',
-          headers: {
+          headers: 
+          {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
           }
         });
       
         const data = await response.json();
-        setstartXDestination(data.x_coordinate);
-        setstartYDestination(data.y_coordinate);
+        setStartingLongitude(data.longitude);
+        setStartingLatitude(data.latitude);
         return data; // Return the data from the API call
-      } catch (error) {
+      } 
+      catch (error) 
+      {
         console.error('Error:', error);
         throw error; // Throw the error to be caught by the calling function
       }      
@@ -87,8 +221,10 @@ export default function GameMap({route, navigation}){
 
     const getCurrentDestination = async () =>
     {
-      try {
-        const params = new URLSearchParams({
+      try 
+      {
+        const params = new URLSearchParams(
+        {
           functionName: 'getCurrentDestination',
           user_id: user_id,
           game_id: game_id
@@ -97,17 +233,20 @@ export default function GameMap({route, navigation}){
         const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/game.php?${params}`, 
         {
           method: 'GET',
-          headers: {
+          headers: 
+          {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
           }
         });
         
         const data = await response.json();
-        setcurrentXDestination(data.x_coordinate);
-        setcurrentYDestination(data.y_coordinate);
+        setLongitudeDestination(data.longitude);
+        setLatitudeDestination(data.latitude);
         return data; // Return the data from the API call
-      } catch (error) {
+      } 
+      catch (error) 
+      {
         console.error('Error:', error);
         throw error; // Throw the error to be caught by the calling function
       }
@@ -115,70 +254,65 @@ export default function GameMap({route, navigation}){
 
     const checkHasGameStarted = async () =>
     {
-      try {
-        const response = await fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', {
+      try 
+      {
+        const response = await fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
+        {
           method: 'POST',
-          headers: {
+          headers: 
+          {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
           },
-          body: JSON.stringify({
+          body: JSON.stringify(
+          {
             functionName: "checkHasGameStarted",
             user_id: user_id,
             game_id: game_id
           })
         });
         const data = await response.json();
-        sethasStarted(data.has_game_started);
-      } catch (error) {
+        setIntroductionComplete(data.has_game_started);
+      } 
+      catch (error) 
+      {
         console.error('Error:', error);
       }
     }
-    
-    useEffect(() => 
-    {
-      updateLocation();
-    
-      console.log("user_id: " + user_id);
-      console.log("game_id: " + game_id);
-      
-      getStartDestination();
-      checkHasGameStarted();
-    }, []);
 
     useEffect(() => 
     {
-      if(startXDestination != null && startYDestination != null && hasStarted != null)
+      if(startingLongitude != null && startingLatitude != null && introductionComplete != null)
       {
-        console.log("Start dest "+startXDestination + " " + startYDestination+" "+hasStarted);
+        console.log("Start dest "+startingLongitude + " " + startingLatitude+" "+introductionComplete);
 
-        if(hasStarted == false)
+        if(introductionComplete == false)
         {
-          setcurrentXDestination(startXDestination);
-          setcurrentYDestination(startYDestination);
+          setLongitudeDestination(startingLongitude);
+          setLatitudeDestination(startingLatitude);
         }
         else
         {
           getCurrentDestination();
         }
       }
-    }, [startXDestination, startYDestination, hasStarted]);
+    }, [startingLongitude, startingLatitude, introductionComplete]);
 
     useEffect(() => 
     {
-      if(currentXDestination != null && currentYDestination != null)
+      if(longitudeDestination != null && latitudeDestination != null)
       {
-        console.log("Current dest "+currentXDestination + " " + currentYDestination);
+        console.log("Current dest "+longitudeDestination + " " + latitudeDestination);
       }
-    }, [currentXDestination, currentYDestination]);
+    }, [longitudeDestination, latitudeDestination]);
 
-    return currentXDestination!== null && currentYDestination !== null && location !== null ? 
+    return longitudeDestination!== null && latitudeDestination !== null && currentLocation !== null && longitudeDestination !== undefined && latitudeDestination !== undefined && currentLocation !== undefined ? 
     (
         <View style={styles.container}>
-        <Text style={styles.header}>Current  Latitude: {location.coords.latitude}  </Text>
-        <Text style={styles.header1}>Current Longitude:{location.coords.longitude}  </Text>
-        <Text style={styles.header2}>Destination  Latitude: {currentXDestination}  </Text>
-        <Text style={styles.header3}>Destination  Longitude: {currentYDestination}  </Text>
+        <Text style={styles.header}>Current  Latitude: {currentLocation.coords.latitude}  </Text>
+        <Text style={styles.header1}>Current Longitude:{currentLocation.coords.longitude}  </Text>
+        <Text style={styles.header2}>Destination  Latitude: {longitudeDestination}  </Text>
+        <Text style={styles.header3}>Destination  Longitude: {latitudeDestination}  </Text>
 
         <TouchableOpacity style={styles.button} onPress={handleArrival}>
           <Text style={styles.buttonText}>I've Arrived</Text>
@@ -189,10 +323,10 @@ export default function GameMap({route, navigation}){
         style={{width: 400, height: 400, position: 'absolute', bottom: 0}}
         />
 
-        {xcoordinate !== null && ycoordinate !== null && (
+        {revLongitude !== null && revLatitude !== null && (
           <Image
             source={require('./assets/rev.png')}
-            style={{width: 30, height: 30, position: 'absolute', bottom: ycoordinate, left: xcoordinate}}
+            style={{width: 30, height: 30, position: 'absolute', bottom: revLatitude, left: revLongitude}}
           />
         )}
         </View>
