@@ -30,7 +30,8 @@ export default function UserHome({route, navigation}) {
         else{
           navigation.navigate('Map', {
             user_id: user_id,
-            username: username
+            username: username,
+            game_id: data.game_ids[0]
           });        
         }
       })

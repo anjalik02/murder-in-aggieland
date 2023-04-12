@@ -6,7 +6,7 @@ import * as Location from 'expo-location';
 import {Image} from 'react-native' ;
 
 export default function GameMap({route, navigation}){
-    const{user_id, username} = route.params; 
+    const{user_id, username, game_id} = route.params; 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
     const [latitude, setLatitude] = useState(null);
@@ -15,10 +15,13 @@ export default function GameMap({route, navigation}){
     const[ycoordinate, setycoordinate] = useState(null); 
     const[currentXDestination, setcurrentXDestination] = useState(null);
     const[currentYDestination, setcurrentYDestination] = useState(null);
+    const[startXDestination, setstartXDestination] = useState(null);
+    const[startYDestination, setstartYDestination] = useState(null);
+    const[hasStarted, sethasStarted] = useState(null);
     
     const handleArrival = () => 
     {
-      alert("You've arrived at the location!");
+      alert(startXDestination+" "+startYDestination+" "+hasStarted+" "+currentXDestination+" "+currentYDestination);
     }
 
     const update = async () => 
@@ -44,49 +47,123 @@ export default function GameMap({route, navigation}){
       setLocation(location);
     }
 
+    const getStartDestination = async () =>
+    {
+      try {
+        const params = new URLSearchParams({
+          functionName: 'getStartDestination',
+          game_id: game_id
+        });
+    
+        const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/game.php?${params}`, 
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+        
+        const data = await response.json();
+        setstartXDestination(data.x_coordinate);
+        setstartYDestination(data.y_coordinate);
+        return data; // Return the data from the API call
+      } catch (error) {
+        console.error('Error:', error);
+        throw error; // Throw the error to be caught by the calling function
+      }
+    }
+
+    
+    const getCurrentDestination = async () =>
+    {
+      try {
+        const params = new URLSearchParams({
+          functionName: 'getCurrentDestination',
+          user_id: user_id,
+          game_id: game_id
+        });
+    
+        const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/game.php?${params}`, 
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+        
+        const data = await response.json();
+        setcurrentXDestination(data.x_coordinate);
+        setcurrentYDestination(data.y_coordinate);
+        console.log("Data dest: "+data.x_coordinate);
+        return data; // Return the data from the API call
+      } catch (error) {
+        console.error('Error:', error);
+        throw error; // Throw the error to be caught by the calling function
+      }
+    }
+
+    const checkHasGameStarted = async () =>
+    {
+      fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
+      {
+          method: 'POST',
+          headers: 
+          {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          },
+          body: JSON.stringify(
+          {
+              functionName: "checkHasGameStarted",
+              user_id: user_id,
+              game_id: game_id
+          })
+      })
+      .then(response => response.json())
+      .then(data => 
+      {
+        sethasStarted(data.has_game_started);
+      })
+      .catch(error => {console.error('Error:', error);});
+    }
+    
     useEffect(() => 
     {
       let intervalId;
-    
       const startUpdating = async () => 
       { 
         intervalId = setInterval(() => {update();}, 5000);
       };
-    
       startUpdating();
-
+    
       console.log("user_id: " + user_id);
-      // const params = new URLSearchParams(
-      //   {
-      //       functionName: 'getCurrentDestination',
-      //       user_id: user_id
-      //   });
-          
-      //   fetch(`https://murder-in-aggieland.herokuapp.com/API/users.php?${params}`, 
-      //   {
-      //       method: 'GET',
-      //       headers: 
-      //       {
-      //           'Content-Type': 'application/json',
-      //           'Access-Control-Allow-Origin': '*'
-      //       }
-      //   })
-      //   .then(response => response.json())
-      //   .then(data => {
-      //     console.log(data);
-      //     if(data.message === "Failed to get current games"){
-      //       alert("No game to resume.");
-      //     }
-      //     else{
-      //       navigation.navigate("Map"); 
-      //     }
-      //   })
-      //   .catch(error => {console.error('Error:', error);});
+      console.log("game_id: " + game_id);
+      
+      const runAsyncFunctions = async () => 
+      {
+        await getStartDestination();
+        await checkHasGameStarted();
+        
+        if (hasStarted) 
+        {
+          await getCurrentDestination();
+        } 
+        else 
+        {
+          setcurrentXDestination(startXDestination);
+          setcurrentYDestination(startYDestination);
+        }
+      };
+      
+      runAsyncFunctions();
     
       return () => clearInterval(intervalId);
     }, []);
 
-    return(
+    return currentXDestination!== null && currentYDestination !== null ? 
+    (
         <View style={styles.container}>
         <Text style={styles.header}> Latitude: {latitude}  </Text>
         <Text style={styles.header1}> Longitude:{longitude}  </Text>
@@ -106,7 +183,15 @@ export default function GameMap({route, navigation}){
           />
         )}
         </View>
-    ); 
+    ) 
+    :
+    (
+      // black screen with white text that says "Loading..."
+      <View style={styles.container}>
+        <Text style={styles.header}>Loading...</Text>
+      </View>
+    )
+    ; 
 }
 
 const styles = StyleSheet.create({
