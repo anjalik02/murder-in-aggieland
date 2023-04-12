@@ -9,7 +9,10 @@ export default function Dialogue({route, navigation})
 {
     const{user_id, username, game_id} = route.params; 
     const[errorMsg, setErrorMsg] = useState(null);
-    const[characterText, setCharacterText] = useState(null);
+    const[gamePriority, setGamePriority] = useState(null);
+    const[characterDialogue, setCharacterDialogue] = useState(null);
+    const[characterName, setCharacterName] = useState(null);
+    const[characterImage, setCharacterImage] = useState(null);
 
     const goBack = async () => 
     {
@@ -21,15 +24,14 @@ export default function Dialogue({route, navigation})
         });
     }
 
-    const decideText = async () =>
+    const populateCharacter = async () =>
     {
       try 
       {
         const params = new URLSearchParams(
         {
-          functionName: 'getCurrentCharacterDialogue',
+          functionName: 'getCharacterDisplayData',
           game_id: game_id,
-          user_id: user_id
         });
       
         const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/character.php?${params}`, 
@@ -43,7 +45,42 @@ export default function Dialogue({route, navigation})
         });
       
         const data = await response.json();
-        setCharacterText(data.dialogue);
+        setCharacterImage(data.image_urls[gamePriority]);
+        setCharacterName(data.names[gamePriority]);
+        setCharacterImage(data.image_urls[gamePriority]);
+        setCharacterDialogue(data.dialogue[gamePriority]);
+        return data; // Return the data from the API call
+      } 
+      catch (error) 
+      {
+        console.error('Error:', error);
+        throw error; // Throw the error to be caught by the calling function
+      }      
+    }
+
+    const getGamePriority =  async () =>
+    {
+      try 
+      {
+        const params = new URLSearchParams(
+        {
+          functionName: 'getCurrentGamePriority',
+          game_id: game_id,
+          user_id: user_id
+        });
+      
+        const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/game.php?${params}`, 
+        {
+          method: 'GET',
+          headers: 
+          {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+      
+        const data = await response.json();
+        setGamePriority(data.current_priority - 1);
         return data; // Return the data from the API call
       } 
       catch (error) 
@@ -55,14 +92,31 @@ export default function Dialogue({route, navigation})
     
     useEffect(() => 
     {
-      decideText();
+      getGamePriority();
     }, []);
 
+    useEffect(() => 
+    {
+      if(gamePriority !== null)
+      {
+        console.log("GAME PRIORITY: "+ gamePriority);
+        populateCharacter();
+      }
+    }, [gamePriority]);
+
+    useEffect(() => 
+    {
+      if(characterDialogue !== null && characterImage !== null && characterName !== null)
+      {
+        console.log("Character Info"+characterName+" "+characterDialogue+" "+characterImage);
+      }
+    }, [characterDialogue, characterName, characterImage]);
+
     // give the view a back button
-    return characterText !== null && characterText !== undefined ? 
+    return characterDialogue !== null && characterImage !== null && characterName !== null ? 
     (
         <View style={styles.container}>
-        <Text style={styles.header}>{characterText}</Text>
+        <Text style={styles.header}>{characterDialogue}</Text>
 
         <TouchableOpacity style={styles.button} onPress={goBack}>
             <Text style={styles.buttonText}>Back</Text>
