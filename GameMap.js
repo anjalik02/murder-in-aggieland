@@ -9,8 +9,6 @@ export default function GameMap({route, navigation}){
     const{user_id, username, game_id} = route.params; 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
-    const [latitude, setLatitude] = useState(null);
-    const [longitude, setLongitude] = useState(null);
     const[xcoordinate, setxcoordinate] = useState(null); 
     const[ycoordinate, setycoordinate] = useState(null); 
     const[currentXDestination, setcurrentXDestination] = useState(null);
@@ -24,8 +22,13 @@ export default function GameMap({route, navigation}){
       alert(startXDestination+" "+startYDestination+" "+hasStarted+" "+currentXDestination+" "+currentYDestination);
     }
 
-    const update = async () => 
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const updateLocation = async () => 
     {
+      await sleep(2000);
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') 
       {
@@ -33,22 +36,28 @@ export default function GameMap({route, navigation}){
         return;
       }
 
-      let location = await Location.getCurrentPositionAsync({});
+      let loc = await Location.getLastKnownPositionAsync({});
 
-      // round latitude and longitude to 6 decimal places
-      location.coords.latitude = parseFloat(location.coords.latitude.toFixed(6));
-      location.coords.longitude = parseFloat(location.coords.longitude.toFixed(6));
-      setLatitude(location.coords.latitude);
-      setLongitude(location.coords.longitude);
-      let leftx = 30.621923; 
-      let lefty = 96.348665; 
-      let diffy = 400-((leftx - location.coords.latitude) / 0.000025); 
-      let diffx = (lefty - (location.coords.longitude * -1)) / 0.00009;
-      
-      setycoordinate(diffy); 
-      setxcoordinate(diffx); 
-      setLocation(location);
+      loc.coords.latitude = parseFloat(loc.coords.latitude.toFixed(6));
+      loc.coords.longitude = parseFloat(loc.coords.longitude.toFixed(6));
+      setLocation(loc);
     }
+
+    useEffect(() => 
+    {
+      if(location != null)
+      {
+        let leftx = 30.621923; 
+        let lefty = 96.348665; 
+        let diffy = 400-((leftx - location.coords.latitude) / 0.000025); 
+        let diffx = (lefty - (location.coords.longitude * -1)) / 0.00009;
+        setycoordinate(diffy);
+        setxcoordinate(diffx);
+
+        console.log("New Location: "+location.coords.latitude+" "+location.coords.longitude);
+        updateLocation();
+      }
+    }, [location]);
 
     const getStartDestination = async () =>
     {
@@ -76,7 +85,6 @@ export default function GameMap({route, navigation}){
       }      
     }
 
-    
     const getCurrentDestination = async () =>
     {
       try {
@@ -129,20 +137,13 @@ export default function GameMap({route, navigation}){
     
     useEffect(() => 
     {
-      let intervalId;
-      const startUpdating = async () => 
-      { 
-        intervalId = setInterval(() => {update();}, 5000);
-      };
-      startUpdating();
+      updateLocation();
     
       console.log("user_id: " + user_id);
       console.log("game_id: " + game_id);
       
       getStartDestination();
       checkHasGameStarted();
-    
-      return () => clearInterval(intervalId);
     }, []);
 
     useEffect(() => 
@@ -171,11 +172,11 @@ export default function GameMap({route, navigation}){
       }
     }, [currentXDestination, currentYDestination]);
 
-    return currentXDestination!== null && currentYDestination !== null ? 
+    return currentXDestination!== null && currentYDestination !== null && location !== null ? 
     (
         <View style={styles.container}>
-        <Text style={styles.header}>Current  Latitude: {latitude}  </Text>
-        <Text style={styles.header1}>Current Longitude:{longitude}  </Text>
+        <Text style={styles.header}>Current  Latitude: {location.coords.latitude}  </Text>
+        <Text style={styles.header1}>Current Longitude:{location.coords.longitude}  </Text>
         <Text style={styles.header2}>Destination  Latitude: {currentXDestination}  </Text>
         <Text style={styles.header3}>Destination  Longitude: {currentYDestination}  </Text>
 
