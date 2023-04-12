@@ -20,16 +20,50 @@ export default function Dialogue({route, navigation})
             game_id: game_id,
         });
     }
+
+    const decideText = async () =>
+    {
+      try 
+      {
+        const params = new URLSearchParams(
+        {
+          functionName: 'getCurrentCharacterDialogue',
+          game_id: game_id,
+          user_id: user_id
+        });
+      
+        const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/character.php?${params}`, 
+        {
+          method: 'GET',
+          headers: 
+          {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+      
+        const data = await response.json();
+        setCharacterText(data.dialogue);
+        return data; // Return the data from the API call
+      } 
+      catch (error) 
+      {
+        console.error('Error:', error);
+        throw error; // Throw the error to be caught by the calling function
+      }      
+    }
     
     useEffect(() => 
     {
-      
+      decideText();
     }, []);
 
     // give the view a back button
-    return true ? 
+    return characterText !== null && characterText !== undefined ? 
     (
         <View style={styles.container}>
+        <Text style={styles.header}>{characterText}</Text>
+
         <TouchableOpacity style={styles.button} onPress={goBack}>
             <Text style={styles.buttonText}>Back</Text>
         </TouchableOpacity>
