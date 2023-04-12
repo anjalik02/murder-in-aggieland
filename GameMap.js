@@ -35,6 +35,9 @@ export default function GameMap({route, navigation}){
 
       let location = await Location.getCurrentPositionAsync({});
 
+      // round latitude and longitude to 6 decimal places
+      location.coords.latitude = parseFloat(location.coords.latitude.toFixed(6));
+      location.coords.longitude = parseFloat(location.coords.longitude.toFixed(6));
       setLatitude(location.coords.latitude);
       setLongitude(location.coords.longitude);
       let leftx = 30.621923; 
@@ -54,16 +57,15 @@ export default function GameMap({route, navigation}){
           functionName: 'getStartDestination',
           game_id: game_id
         });
-    
-        const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/game.php?${params}`, 
-        {
+      
+        const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/game.php?${params}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
           }
         });
-        
+      
         const data = await response.json();
         setstartXDestination(data.x_coordinate);
         setstartYDestination(data.y_coordinate);
@@ -71,7 +73,7 @@ export default function GameMap({route, navigation}){
       } catch (error) {
         console.error('Error:', error);
         throw error; // Throw the error to be caught by the calling function
-      }
+      }      
     }
 
     
@@ -96,7 +98,6 @@ export default function GameMap({route, navigation}){
         const data = await response.json();
         setcurrentXDestination(data.x_coordinate);
         setcurrentYDestination(data.y_coordinate);
-        console.log("Data dest: "+data.x_coordinate);
         return data; // Return the data from the API call
       } catch (error) {
         console.error('Error:', error);
@@ -106,27 +107,24 @@ export default function GameMap({route, navigation}){
 
     const checkHasGameStarted = async () =>
     {
-      fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
-      {
+      try {
+        const response = await fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', {
           method: 'POST',
-          headers: 
-          {
+          headers: {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'
           },
-          body: JSON.stringify(
-          {
-              functionName: "checkHasGameStarted",
-              user_id: user_id,
-              game_id: game_id
+          body: JSON.stringify({
+            functionName: "checkHasGameStarted",
+            user_id: user_id,
+            game_id: game_id
           })
-      })
-      .then(response => response.json())
-      .then(data => 
-      {
+        });
+        const data = await response.json();
         sethasStarted(data.has_game_started);
-      })
-      .catch(error => {console.error('Error:', error);});
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
     
     useEffect(() => 
@@ -141,32 +139,46 @@ export default function GameMap({route, navigation}){
       console.log("user_id: " + user_id);
       console.log("game_id: " + game_id);
       
-      const runAsyncFunctions = async () => 
-      {
-        await getStartDestination();
-        await checkHasGameStarted();
-        
-        if (hasStarted) 
-        {
-          await getCurrentDestination();
-        } 
-        else 
-        {
-          setcurrentXDestination(startXDestination);
-          setcurrentYDestination(startYDestination);
-        }
-      };
-      
-      runAsyncFunctions();
+      getStartDestination();
+      checkHasGameStarted();
     
       return () => clearInterval(intervalId);
     }, []);
 
+    useEffect(() => 
+    {
+      if(startXDestination != null && startYDestination != null && hasStarted != null)
+      {
+        console.log("Start dest "+startXDestination + " " + startYDestination+" "+hasStarted);
+
+        if(hasStarted == false)
+        {
+          setcurrentXDestination(startXDestination);
+          setcurrentYDestination(startYDestination);
+        }
+        else
+        {
+          getCurrentDestination();
+        }
+      }
+    }, [startXDestination, startYDestination, hasStarted]);
+
+    useEffect(() => 
+    {
+      if(currentXDestination != null && currentYDestination != null)
+      {
+        console.log("Current dest "+currentXDestination + " " + currentYDestination);
+      }
+    }, [currentXDestination, currentYDestination]);
+
     return currentXDestination!== null && currentYDestination !== null ? 
     (
         <View style={styles.container}>
-        <Text style={styles.header}> Latitude: {latitude}  </Text>
-        <Text style={styles.header1}> Longitude:{longitude}  </Text>
+        <Text style={styles.header}>Current  Latitude: {latitude}  </Text>
+        <Text style={styles.header1}>Current Longitude:{longitude}  </Text>
+        <Text style={styles.header2}>Destination  Latitude: {currentXDestination}  </Text>
+        <Text style={styles.header3}>Destination  Longitude: {currentYDestination}  </Text>
+
         <TouchableOpacity style={styles.button} onPress={handleArrival}>
           <Text style={styles.buttonText}>I've Arrived</Text>
         </TouchableOpacity>
@@ -186,7 +198,6 @@ export default function GameMap({route, navigation}){
     ) 
     :
     (
-      // black screen with white text that says "Loading..."
       <View style={styles.container}>
         <Text style={styles.header}>Loading...</Text>
       </View>
@@ -217,7 +228,22 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       marginBottom: 20,
     },
-
+    header2: {
+      position: 'absolute',
+      top: 80,
+      color: '#fff',
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20,
+    },
+    header3: {
+      position: 'absolute',
+      top: 100,
+      color: '#fff',
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20,
+    },
     input: {
       backgroundColor: '#fff',
       paddingVertical: 10,
@@ -233,8 +259,7 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       marginBottom: 10,
       position: 'absolute', 
-      top: 100,
-
+      top: 140,
     },
     buttonText: {
       color: '#000',
