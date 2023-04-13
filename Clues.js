@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, ScrollView} from 'react-native';
 import axios from 'axios'; 
 import * as Location from 'expo-location';
 import {Image} from 'react-native' ;
@@ -11,6 +11,13 @@ export default function Clues({route, navigation})
     const[errorMsg, setErrorMsg] = useState(null);
     const[gamePriority, setGamePriority] = useState(null);
     const[unlockedCharactersData, setUnlockedCharactersData] = useState(null);
+
+    const intro = require('./assets/Chef.png');
+    const builder = require('./assets/Builder.png');
+    const architect = require('./assets/Architect.png');
+    const librarian = require('./assets/Librarian.png');
+    const chef = require('./assets/Chef.png');
+    const professor = require('./assets/Professor.png');
 
     const goBack = async () => 
     {
@@ -109,27 +116,52 @@ export default function Clues({route, navigation})
       }
     }, [unlockedCharactersData]);
 
+    const getImage = (index) =>
+    {
+        if(index===0)
+            return intro;
+        else if(index===1)
+          return builder
+        else if(index===2)
+          return professor
+        else if(index===3)
+          return chef;
+        else if(index===4)
+          return architect;
+        else
+          return librarian;
+    }
+
     // give the view a back button
     return unlockedCharactersData !== null ? (
-        <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={goBack}>
-            <Text style={styles.buttonText}>Back</Text>
-          </TouchableOpacity>
-      
-          {unlockedCharactersData.descriptions.map((description, index) => (
-            <View key={index} style={styles.characterContainer}>
-              <Image
-                source={require('./assets/Chef.png')}
-                style={styles.characterImage}
-              />
-              <View style={styles.characterDetails}>
-                <Text style={styles.characterName}>{unlockedCharactersData.names[index]}</Text>
-                <Text style={styles.characterDescription}>{description}</Text>
-                <Text style={styles.characterDialogue}>{unlockedCharactersData.dialogue[index]}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
+        <ScrollView style={styles.scrollContainer}>
+          <View style={styles.container}>
+            <TouchableOpacity style={styles.button} onPress={goBack}>
+              <Text style={styles.buttonText}>Back</Text>
+            </TouchableOpacity>
+
+            {unlockedCharactersData.descriptions.map((description, index) => {
+            if (index <= gamePriority) {
+              return (
+                <View key={index} style={styles.characterContainer}>
+                  <Image source={getImage(index)} style={styles.characterImage} />
+                  <View style={styles.characterDetails}>
+                    <Text style={styles.characterName}>
+                      {unlockedCharactersData.names[index]}
+                    </Text>
+                    <Text style={styles.characterDescription}>{description}</Text>
+                    <Text style={styles.characterDialogue}>
+                      {unlockedCharactersData.dialogue[index]}
+                    </Text>
+                  </View>
+                </View>
+              );
+            } else {
+              return null;
+            }
+          })}
+          </View>
+        </ScrollView>
       ) : (
         <View style={styles.container}>
           <Text style={styles.header}>Loading...</Text>
@@ -138,6 +170,9 @@ export default function Clues({route, navigation})
 }
 
 const styles = StyleSheet.create({
+    scrollContainer: {
+      flex: 1,
+    },
     container: {
       flex: 1,
       backgroundColor: "#000",
