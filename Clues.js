@@ -48,7 +48,6 @@ export default function Clues({route, navigation})
             {
               alert("Congratulations, you guessed the killer!");
 
-
               navigation.navigate('User Home', 
               {
                   user_id: user_id,

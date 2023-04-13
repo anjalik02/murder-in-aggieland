@@ -40,6 +40,8 @@ export default function GameMap({route, navigation}){
       
         const data = await response.json();
         setGamePriority(data.current_priority);
+        console.log("Prio: "+data.current_priority);
+        console.log("SETTING CURRENT PRIORITY");
         return data; // Return the data from the API call
       } 
       catch (error) 
@@ -59,10 +61,13 @@ export default function GameMap({route, navigation}){
 
     useEffect(() => 
     {
+      console.log("Use Effect Priority"+ gamePriority);
+
       if(gamePriority !== null && gamePriority !== undefined)
       {
         if(gamePriority <= 5)
         {
+          console.log("Good Priority")
           updateLocation();
           getCurrentDestination();
         }
