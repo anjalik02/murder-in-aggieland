@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 
 export default function UserHome({route, navigation}) {
   const { user_id, username } = route.params;
@@ -44,7 +44,7 @@ export default function UserHome({route, navigation}) {
           functionName: 'getCurrentGames',
           user_id: user_id
       });
-        
+      
       fetch(`https://murder-in-aggieland.herokuapp.com/API/users.php?${params}`, 
       {
           method: 'GET',
@@ -76,12 +76,63 @@ export default function UserHome({route, navigation}) {
           .then(response => response.json())
           .then(data => {
             console.log(data);
-            alert("Successful game creation");
+            alert("Successful game creation. Press Resume Game.");
           })
           .catch(error => {console.error('Error:', error);});
         }
         else{
-          navigation.navigate('Log in')
+          Alert.alert(
+            "End Current Game",
+            "Are you sure you want to end the current game and start a new one?",
+            [
+              {
+                text: "Cancel",
+                style: "cancel"
+              },
+              { text: "Yes", onPress: () => {
+                fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
+                {
+                    method: 'POST',
+                    headers: 
+                    {
+                      'Content-Type': 'application/json',
+                      'Access-Control-Allow-Origin': '*'
+                    },
+                    body: JSON.stringify(
+                    {
+                        functionName: "unenrollUserFromGame",
+                        user_id: user_id,
+                        game_id: 1
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {console.log(data);
+                  fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
+                  {
+                      method: 'POST',
+                      headers: 
+                      {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                      },
+                      body: JSON.stringify(
+                      {
+                          functionName: "enrollUserInGame",
+                          user_id: user_id,
+                          game_id: 1
+                      })
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log(data);
+                    alert("Successful game creation. Press Resume Game.");
+                  })
+                  .catch(error => {console.error('Error:', error);});
+                })
+                .catch(error => {console.error('Error:', error);});
+              } }
+            ]
+          );
         }
       })
       .catch(error => {console.error('Error:', error);});
