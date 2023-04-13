@@ -11,6 +11,7 @@ export default function Clues({route, navigation})
     const[errorMsg, setErrorMsg] = useState(null);
     const[gamePriority, setGamePriority] = useState(null);
     const[unlockedCharactersData, setUnlockedCharactersData] = useState(null);
+    const[currentCharacter, setCurrentCharacter] = useState(null);
 
     const intro = require('./assets/Chef.png');
     const builder = require('./assets/Builder.png');
@@ -18,6 +19,10 @@ export default function Clues({route, navigation})
     const librarian = require('./assets/Librarian.png');
     const chef = require('./assets/Chef.png');
     const professor = require('./assets/Professor.png');
+
+    const handleGuess = async () =>
+    {
+    }
 
     const goBack = async () => 
     {
@@ -27,6 +32,12 @@ export default function Clues({route, navigation})
             username: username,
             game_id: game_id,
         });
+    }
+
+    const selectCurrent = async (index) =>
+    {
+      if(index != 0)
+        setCurrentCharacter(index);
     }
 
     const populateCharacter = async () =>
@@ -116,6 +127,14 @@ export default function Clues({route, navigation})
       }
     }, [unlockedCharactersData]);
 
+    useEffect(() =>
+    {
+      if(currentCharacter !== null)
+      {
+        console.log("CURRENT CHARACTER: " + currentCharacter);
+      }
+    }, [currentCharacter]);
+
     const getImage = (index) =>
     {
         if(index===0)
@@ -134,16 +153,24 @@ export default function Clues({route, navigation})
 
     // give the view a back button
     return unlockedCharactersData !== null ? (
-        <ScrollView style={styles.scrollContainer}>
-          <View style={styles.container}>
-            <TouchableOpacity style={styles.button} onPress={goBack}>
-              <Text style={styles.buttonText}>Back</Text>
-            </TouchableOpacity>
-
-            {unlockedCharactersData.descriptions.map((description, index) => {
+      <ScrollView style={styles.scrollContainer}>
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.button} onPress={goBack}>
+            <Text style={styles.buttonText}>Back</Text>
+          </TouchableOpacity>
+    
+          {unlockedCharactersData.descriptions.map((description, index) => {
+            const isSelected = currentCharacter === index;
             if (index <= gamePriority) {
               return (
-                <View key={index} style={styles.characterContainer}>
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.characterContainer,
+                    isSelected && styles.selectedCharacterContainer,
+                  ]}
+                  onPress={() => selectCurrent(index)}
+                >
                   <Image source={getImage(index)} style={styles.characterImage} />
                   <View style={styles.characterDetails}>
                     <Text style={styles.characterName}>
@@ -154,19 +181,46 @@ export default function Clues({route, navigation})
                       {unlockedCharactersData.dialogue[index]}
                     </Text>
                   </View>
-                </View>
+                </TouchableOpacity>
               );
             } else {
-              return null;
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.characterContainer,
+                    isSelected && styles.selectedCharacterContainer,
+                  ]}
+                  onPress={() => selectCurrent(index)}
+                >
+                  <Image source={getImage(index)} style={styles.characterImage} />
+                  <View style={styles.characterDetails}>
+                    <Text style={[styles.characterName]}>
+                      {unlockedCharactersData.names[index]}
+                    </Text>
+                    <Text style={[styles.characterDescription]}>
+                      {description}
+                    </Text>
+                    <Text style={[styles.characterDialogue, { color: 'red' }]}>
+                      Dialogue Not Yet Obtained
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
             }
           })}
-          </View>
-        </ScrollView>
-      ) : (
-        <View style={styles.container}>
-          <Text style={styles.header}>Loading...</Text>
+
+          <TouchableOpacity style={styles.placeGuessButton} onPress={() => handleGuess()}>
+            <Text style={styles.placeGuessButtonText}>Place Guess</Text>
+          </TouchableOpacity>
+
         </View>
-      );
+      </ScrollView>
+    ) : (
+      <View style={styles.container}>
+        <Text style={styles.header}>Loading...</Text>
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -208,6 +262,10 @@ const styles = StyleSheet.create({
       margin: 10,
       width: "90%",
     },
+    selectedCharacterContainer: {
+      borderColor: 'red',
+      borderWidth: 2,
+    },
     characterImage: {
       width: 80,
       height: 80,
@@ -236,4 +294,18 @@ const styles = StyleSheet.create({
       fontSize: 12,
       fontStyle: "italic",
     },
+    placeGuessButton: {
+      backgroundColor: "#fff",
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 10,
+      marginTop: 10,
+      marginBottom: 50,
+    },
+    placeGuessButtonText: {
+      color: "#000",
+      fontSize: 18,
+      fontWeight: "bold",
+    },
+
   });
