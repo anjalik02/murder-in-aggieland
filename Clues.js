@@ -22,6 +22,48 @@ export default function Clues({route, navigation})
 
     const handleGuess = async () =>
     {
+      try 
+          {
+            const response = await fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
+            {
+              method: 'POST',
+              headers: 
+              {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              },
+              body: JSON.stringify(
+              {
+                functionName: "placeGuess",
+                user_id: user_id,
+                game_id: game_id,
+                character_guess_id: currentCharacter
+              })
+            });
+            const data = await response.json();
+
+            const winner = data.code === 0;
+
+            if(winner)
+            {
+              alert("Congratulations, you guessed the killer!");
+
+
+              navigation.navigate('User Home', 
+              {
+                  user_id: user_id,
+                  username: username
+              });
+            }
+            else
+            {
+              alert("Incorrect Guess");
+            }
+          } 
+          catch (error) 
+          {
+            console.error('Error:', error);
+          }
     }
 
     const goBack = async () => 
@@ -155,9 +197,11 @@ export default function Clues({route, navigation})
     return unlockedCharactersData !== null ? (
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.container}>
+        {gamePriority < 5 && (
           <TouchableOpacity style={styles.button} onPress={goBack}>
             <Text style={styles.buttonText}>Back</Text>
           </TouchableOpacity>
+        )}
     
           {unlockedCharactersData.descriptions.map((description, index) => {
             const isSelected = currentCharacter === index;

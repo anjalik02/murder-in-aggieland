@@ -14,20 +14,74 @@ export default function GameMap({route, navigation}){
     const[revLatitude, setRevLatitude] = useState(null); 
     const[longitudeDestination, setLongitudeDestination] = useState(null);
     const[latitudeDestination, setLatitudeDestination] = useState(null);
-    const isFocused = useIsFocused()
+    const[gamePriority, setGamePriority] = useState(null);
+    const isFocused = useIsFocused();
+
+    const getGamePriority =  async () =>
+    {
+      try 
+      {
+        const params = new URLSearchParams(
+        {
+          functionName: 'getCurrentGamePriority',
+          game_id: game_id,
+          user_id: user_id
+        });
+      
+        const response = await fetch(`https://murder-in-aggieland.herokuapp.com/API/game.php?${params}`, 
+        {
+          method: 'GET',
+          headers: 
+          {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+      
+        const data = await response.json();
+        setGamePriority(data.current_priority);
+        return data; // Return the data from the API call
+      } 
+      catch (error) 
+      {
+        console.error('Error:', error);
+        throw error; // Throw the error to be caught by the calling function
+      }      
+    }
 
     const rePopulateData = async () =>
     {
       console.log("user_id: " + user_id);
       console.log("game_id: " + game_id);
-      
-      updateLocation();
-      getCurrentDestination();
+
+      getGamePriority();
     }
+
+    useEffect(() => 
+    {
+      if(gamePriority !== null && gamePriority !== undefined)
+      {
+        if(gamePriority <= 5)
+        {
+          updateLocation();
+          getCurrentDestination();
+        }
+        else
+        {
+          navigation.navigate('Clues', 
+          {
+            user_id: user_id,
+            username: username,
+            game_id: game_id
+          }); 
+        }
+      }
+    }, [gamePriority])
 
     useEffect(() => {
       if(isFocused)
       {
+          setGamePriority(null);
           setCurrentLocation(null);
           setErrorMsg(null);
           setRevLongitude(null);
