@@ -199,28 +199,39 @@ export default function GameMap({route, navigation}){
     return longitudeDestination!== null && latitudeDestination !== null && currentLocation !== null && longitudeDestination !== undefined && latitudeDestination !== undefined && currentLocation !== undefined ? 
     (
         <View style={styles.container}>
-        <Text style={styles.header}>Current  Latitude: {currentLocation.coords.latitude}  </Text>
-        <Text style={styles.header1}>Current Longitude:{currentLocation.coords.longitude}  </Text>
-        <Text style={styles.header2}>Destination  Latitude: {longitudeDestination}  </Text>
-        <Text style={styles.header3}>Destination  Longitude: {latitudeDestination}  </Text>
+        <Text style={styles.subheader}>
+          Walk around campus to find clues...
+        </Text>
+        <Text style={styles.subsubheader}>
+          Current Latitude: {currentLocation.coords.latitude}
+         </Text>
+         <Text style={styles.subsubheader}>
+          Current Longitude:{currentLocation.coords.longitude}
+         </Text>
+         <Text style={styles.subsubheader}>
+          Destination Latitude: {longitudeDestination}
+         </Text>
+         <Text style={styles.subsubheader}>
+          Destination  Longitude: {latitudeDestination}
+         </Text>
 
         <TouchableOpacity style={styles.button} onPress={handleArrival}>
           <Text style={styles.buttonText}>I've Arrived</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button2} onPress={Clues}>
+        <TouchableOpacity style={styles.button} onPress={Clues}>
           <Text style={styles.buttonText}>Clues</Text>
         </TouchableOpacity>
         
         <Image 
         source={require('./assets/Design.png')} 
-        style={{width: 400, height: 400, position: 'absolute', bottom: 0}}
+        style={{width: "100%", height: 350, position: 'absolute', bottom: 50}}
         />
 
         {revLongitude !== null && revLatitude !== null && (
           <Image
             source={require('./assets/rev.png')}
-            style={{width: 30, height: 30, position: 'absolute', bottom: revLatitude, left: revLongitude}}
+            style={{width: 40, height: 40, position: 'absolute', bottom: revLatitude, left: revLongitude}}
           />
         )}
         </View>
@@ -239,39 +250,26 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#000',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'top'
     },
     header: {
-      position: 'absolute', 
-      top: 40,
       color: '#fff',
       fontSize: 24,
       fontWeight: 'bold',
       marginBottom: 20,
     },
-    header1: {
-      position: 'absolute', 
-      top: 60,
+    subheader: {
+      marginTop: 20,
       color: '#fff',
-      fontSize: 24,
+      fontSize: 18,
       fontWeight: 'bold',
-      marginBottom: 20,
+      marginBottom: 15,
     },
-    header2: {
-      position: 'absolute',
-      top: 80,
+    subsubheader: {
       color: '#fff',
-      fontSize: 24,
+      fontSize: 12,
       fontWeight: 'bold',
-      marginBottom: 20,
-    },
-    header3: {
-      position: 'absolute',
-      top: 100,
-      color: '#fff',
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
+      marginBottom: 10,
     },
     input: {
       backgroundColor: '#fff',
@@ -287,17 +285,6 @@ const styles = StyleSheet.create({
       paddingHorizontal: 20,
       borderRadius: 10,
       marginBottom: 10,
-      position: 'absolute', 
-      top: 140,
-    },
-    button2: {
-      backgroundColor: '#fff',
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      borderRadius: 10,
-      marginBottom: 10,
-      position: 'absolute', 
-      top: 200,
     },
     buttonText: {
       color: '#000',
