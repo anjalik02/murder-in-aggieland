@@ -39,6 +39,16 @@ export default function GameMap({route, navigation}){
       }
     }, [isFocused])
 
+    const Clues = async () =>
+    {
+      navigation.navigate('Clues', 
+      {
+        user_id: user_id,
+        username: username,
+        game_id: game_id
+      }); 
+    }
+
     const handleArrival = async () => 
     {
       try 
@@ -197,6 +207,10 @@ export default function GameMap({route, navigation}){
         <TouchableOpacity style={styles.button} onPress={handleArrival}>
           <Text style={styles.buttonText}>I've Arrived</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button2} onPress={Clues}>
+          <Text style={styles.buttonText}>Clues</Text>
+        </TouchableOpacity>
         
         <Image 
         source={require('./assets/Design.png')} 
@@ -275,6 +289,15 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       position: 'absolute', 
       top: 140,
+    },
+    button2: {
+      backgroundColor: '#fff',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 10,
+      marginBottom: 10,
+      position: 'absolute', 
+      top: 200,
     },
     buttonText: {
       color: '#000',

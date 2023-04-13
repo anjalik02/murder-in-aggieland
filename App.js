@@ -9,6 +9,7 @@ import HowToPlay from './HowToPlay';
 import UserHome from './UserHome';
 import GameMap from './GameMap';
 import Dialogue from './Dialogue';
+import Clues from './Clues';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,8 @@ export default function App() {
         <Stack.Screen name="User Home" component={UserHome} options={{headerShown: false}}/>
         <Stack.Screen name = "Map" component = {GameMap} />
         <Stack.Screen name = "Dialogue" component = {Dialogue} />
+        <Stack.Screen name = "Clues" component = {Clues} />
+
       </Stack.Navigator>
       <StatusBar style="auto" />
     </NavigationContainer>
