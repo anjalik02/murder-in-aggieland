@@ -22,6 +22,13 @@ export default function Clues({route, navigation})
 
     const handleGuess = async () =>
     {
+      if(currentCharacter === null || currentCharacter === undefined)
+      {
+        alert("Please select a character.");
+        return;
+      }
+
+      console.log("GUESSING: "+(currentCharacter));
       try 
           {
             const response = await fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 

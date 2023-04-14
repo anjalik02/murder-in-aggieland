@@ -48,7 +48,11 @@ export default function Dialogue({route, navigation})
         setCharacterImage(data.image_urls[gamePriority]);
         setCharacterName(data.names[gamePriority]);
         setCharacterImage(data.image_urls[gamePriority]);
-        setCharacterDialogue(data.dialogue[gamePriority]);
+
+        let dialogue = data.dialogue[gamePriority];
+        dialogue = dialogue.split('\\n');
+
+        setCharacterDialogue(dialogue);
         return data; // Return the data from the API call
       } 
       catch (error) 
@@ -116,7 +120,7 @@ export default function Dialogue({route, navigation})
     return characterDialogue !== null && characterImage !== null && characterName !== null ? 
     (
         <View style={styles.container}>
-        <Text style={styles.header}>{characterDialogue}</Text>
+        <Text style={styles.header}>{characterDialogue.join('\n\n')}</Text>
 
         <TouchableOpacity style={styles.button} onPress={goBack}>
             <Text style={styles.buttonText}>Back</Text>
