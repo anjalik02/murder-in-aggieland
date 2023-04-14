@@ -203,12 +203,6 @@ export default function Clues({route, navigation})
     return unlockedCharactersData !== null ? (
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.container}>
-        {gamePriority < 5 && (
-          <TouchableOpacity style={styles.button} onPress={goBack}>
-            <Text style={styles.buttonText}>Back</Text>
-          </TouchableOpacity>
-        )}
-    
           {unlockedCharactersData.descriptions.map((description, index) => {
             const isSelected = currentCharacter === index;
             if (index <= gamePriority) {

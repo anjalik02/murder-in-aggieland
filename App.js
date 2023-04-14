@@ -39,41 +39,54 @@ export default function App() {
 
 function HomeScreen({ navigation }) {
   return (
-     <View style={styles.container}>
-      <Text style={styles.header}>Murder in Aggieland</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('Create Account')}
-      >
-        <Text style={styles.buttonText}>Create an Account</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.button}
-        onPress={() => navigation.navigate('Log In')}
-      >
-        <Text style={styles.buttonText}>Log In</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.button}
-        onPress={() => navigation.navigate('How to Play')}
-      >
-        <Text style={styles.buttonText}>How to Play</Text>
-      </TouchableOpacity>
-      <StatusBar style="auto" />
+    <View style={styles.background}>
+      <View style={styles.container}>
+        <Text style={styles.header}>Murder in Aggieland</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Create Account')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>Create an Account</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={() => navigation.navigate('Log In')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>Log In</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={[styles.button, styles.learnButton]}
+          onPress={() => navigation.navigate('How to Play')}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.buttonText}>Learn How to Play</Text>
+        </TouchableOpacity>
+        <StatusBar style="auto" />
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  background: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#242424',
     alignItems: 'center',
     justifyContent: 'center',
   },
+  container: {
+    backgroundColor: '#1a1a1a',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    borderRadius: 10,
+  },
   header: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 36,
     fontWeight: 'bold',
     marginBottom: 20,
   },
@@ -83,10 +96,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     marginBottom: 10,
+    alignSelf: 'stretch',
+  },
+  learnButton: {
+    backgroundColor: '#bf0e0e',
   },
   buttonText: {
     color: '#000',
     fontSize: 18,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
 });

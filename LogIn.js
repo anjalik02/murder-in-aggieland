@@ -46,62 +46,70 @@ export default function LogIn({ navigation }) {
   return (
     <KeyboardAvoidingView 
       style={styles.container}
-      behavior={Platform.OS === 'ios' ? 'padding' : null}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}
     >
-      <Text style={styles.header}>Enter the username and password</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        onChangeText={setUsername}
-        value={username}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry={true}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Log In</Text>
-      </TouchableOpacity>
+      <View style={styles.box}>
+        <Text style={styles.header}>Enter Credentials</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          onChangeText={setUsername}
+          value={username}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry={true}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Log In</Text>
+        </TouchableOpacity>
+      </View>
       <StatusBar style="auto" />
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header: {
-    color: '#fff',
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  input: {
-    backgroundColor: '#fff',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginBottom: 10,
-    width: '80%',
-  },
-  button: {
-    backgroundColor: '#fff',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginBottom: 10,
-  },
-  buttonText: {
-    color: '#000',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#242424',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    box: {
+      backgroundColor: '#1a1a1a',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 20,
+      paddingVertical: 30,
+      borderRadius: 10,
+      width: '90%',
+    },
+    header: {
+      color: '#fff',
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20,
+    },
+    input: {
+      backgroundColor: '#fff',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 10,
+      marginBottom: 10,
+      width: '100%',
+    },
+    button: {
+      backgroundColor: '#fff',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderRadius: 10,
+      marginTop: 20,
+    },
+    buttonText: {
+      color: '#000',
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+  });
