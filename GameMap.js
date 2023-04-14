@@ -201,14 +201,14 @@ export default function GameMap({route, navigation}){
     {
       if(currentLocation != null)
       {
-        let latitude = 30.621923; 
-        let longitude = 96.348665; 
-        let latitudeDiff = 400-((latitude - currentLocation.coords.latitude) / 0.000025); 
-        let longitudeDiff = (longitude - (currentLocation.coords.longitude * -1)) / 0.00009;
+        let latitude = 30.614982; 
+        let longitude = -96.335165; 
+        let latitudeDiff = ((currentLocation.coords.latitude- latitude) / 0.007182) * 350 
+        let longitudeDiff = (((currentLocation.coords.longitude-longitude) * -1)/0.009818) * 350
         setRevLatitude(latitudeDiff);
         setRevLongitude(longitudeDiff);
 
-        console.log("New Rev Location: "+currentLocation.coords.latitude+" "+currentLocation.coords.longitude);
+        console.log("New Rev Location: "+currentLocation.coords.latitude+" "+currentLocation.coords.longitude + " " ,latitudeDiff + " " + longitudeDiff);
         console.log("Current Destination: "+latitudeDestination+" "+longitudeDestination);
         updateLocation();
       }
@@ -236,6 +236,8 @@ export default function GameMap({route, navigation}){
         });
         
         const data = await response.json();
+        let testlong = 30.617443; 
+        let testlat = -96.339138
         setLongitudeDestination(data.longitude);
         setLatitudeDestination(data.latitude);
         return data; // Return the data from the API call
@@ -284,13 +286,13 @@ export default function GameMap({route, navigation}){
         
         <Image 
         source={require('./assets/Design.png')} 
-        style={{width: "100%", height: 350, position: 'absolute', bottom: 50}}
+        style={{width: "100%", height: 350, position: 'absolute', bottom: 50, width: 425}}
         />
 
         {revLongitude !== null && revLatitude !== null && (
           <Image
             source={require('./assets/rev.png')}
-            style={{width: 40, height: 40, position: 'absolute', bottom: revLatitude, left: revLongitude}}
+            style={{width: 40, height: 40, position: 'absolute', bottom: revLatitude, right: revLongitude}}
           />
         )}
         </View>
