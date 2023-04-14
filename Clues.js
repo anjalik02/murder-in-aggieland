@@ -227,8 +227,9 @@ export default function Clues({route, navigation})
                       {unlockedCharactersData.names[index]}
                     </Text>
                     <Text style={styles.characterDescription}>{description}</Text>
+                    <Text style={[styles.characterDescription, { lineHeight: 1 }]}>{'\n'}</Text>
                     <Text style={styles.characterDialogue}>
-                      {unlockedCharactersData.dialogue[index]}
+                      {unlockedCharactersData.dialogue[index].replace(/\\n/g, '\n\n')}
                     </Text>
                   </View>
                 </TouchableOpacity>
@@ -251,6 +252,7 @@ export default function Clues({route, navigation})
                     <Text style={[styles.characterDescription]}>
                       {description}
                     </Text>
+                    <Text style={[styles.characterDescription, { lineHeight: 1 }]}>{'\n'}</Text>
                     <Text style={[styles.characterDialogue, { color: 'red' }]}>
                       Dialogue Not Yet Obtained
                     </Text>
