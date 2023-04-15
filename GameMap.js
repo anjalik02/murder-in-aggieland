@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#000',
       alignItems: 'center',
-      justifyContent: 'top'
+      justifyContent: 'top',
     },
     header: {
       color: '#fff',

@@ -139,32 +139,34 @@ export default function UserHome({route, navigation}) {
   }
 
   return (
+    
     <View style={styles.container}>
-      <Text style={styles.header}>Welcome, {username}</Text>
+      <View style={styles.box}>
 
-      <Text style={styles.subheader}>Current Game</Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={returnCurrentGames}
-      >
-        <Text style={styles.buttonText}>Resume Game</Text>
-      </TouchableOpacity>
-      <Text style={styles.subheader}>New Game</Text>
-      <TouchableOpacity 
-        style={styles.button}
-        onPress={enrollUserInGame}
-      >
-        <Text style={styles.buttonText}>Create New Game</Text>
-      </TouchableOpacity>
+        <Text style={styles.header}>Welcome, {username}</Text>
 
-      <TouchableOpacity 
-        style={[styles.button, {marginTop: 40}]}
-        onPress={() => navigation.navigate('Home')}
-      >
-        <Text style={styles.buttonText}>Logout</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={returnCurrentGames}
+        >
+          <Text style={styles.buttonText}>Resume Game</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.button}
+          onPress={enrollUserInGame}
+        >
+          <Text style={styles.buttonText}>Create/Restart Game</Text>
+        </TouchableOpacity>
 
-      <StatusBar style="auto" />
+        <TouchableOpacity 
+          style={[styles.button, {marginTop: 40, backgroundColor: '#ff0000'}]}
+          onPress={() => navigation.navigate('Home')}
+        >
+          <Text style={styles.buttonText}>Logout</Text>
+        </TouchableOpacity>
+
+        <StatusBar style="auto" />
+      </View>
     </View>
   );
 }
@@ -172,9 +174,18 @@ export default function UserHome({route, navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#242424',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  box: {
+    backgroundColor: '#1a1a1a',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 30,
+    borderRadius: 10,
+    width: '90%',
   },
   header: {
     color: '#fff',
@@ -194,10 +205,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     marginBottom: 10,
+    width: '90%',
   },
   buttonText: {
     color: '#000',
     fontSize: 18,
     fontWeight: 'bold',
+    textAlign: 'center',
+
   },
 });

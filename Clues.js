@@ -201,7 +201,7 @@ export default function Clues({route, navigation})
 
     // give the view a back button
     return unlockedCharactersData !== null ? (
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
         <View style={styles.container}>
           {unlockedCharactersData.descriptions.map((description, index) => {
             const isSelected = currentCharacter === index;
@@ -341,7 +341,7 @@ const styles = StyleSheet.create({
       fontStyle: "italic",
     },
     placeGuessButton: {
-      backgroundColor: "#fff",
+      backgroundColor: "red",
       paddingVertical: 10,
       paddingHorizontal: 20,
       borderRadius: 10,
