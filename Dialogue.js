@@ -14,6 +14,13 @@ export default function Dialogue({route, navigation})
     const[characterName, setCharacterName] = useState(null);
     const[characterImage, setCharacterImage] = useState(null);
 
+    const intro = require('./assets/rev.png');
+    const builder = require('./assets/Builder.png');
+    const architect = require('./assets/Architect.png');
+    const librarian = require('./assets/Librarian.png');
+    const chef = require('./assets/Chef.png');
+    const professor = require('./assets/Professor.png');
+
     const goBack = async () => 
     {
         navigation.navigate('Map', 
@@ -45,7 +52,6 @@ export default function Dialogue({route, navigation})
         });
       
         const data = await response.json();
-        setCharacterImage(data.image_urls[gamePriority]);
         setCharacterName(data.names[gamePriority]);
         setCharacterImage(data.image_urls[gamePriority]);
 
@@ -116,15 +122,36 @@ export default function Dialogue({route, navigation})
       }
     }, [characterDialogue, characterName, characterImage]);
 
+    const getImage = (index) =>
+    {
+        if(index===0)
+            return intro;
+        else if(index===1)
+          return builder
+        else if(index===2)
+          return professor
+        else if(index===3)
+          return chef;
+        else if(index===4)
+          return architect;
+        else
+          return librarian;
+    }
+
     // give the view a back button
     return characterDialogue !== null && characterImage !== null && characterName !== null ? 
     (
         <View style={styles.container}>
-        <Text style={styles.header}>{characterDialogue.join('\n\n')}</Text>
+          <Image
+              source={getImage(gamePriority)}
+              style={{width: 200, height: 200}}
+            />
+            {console.log(characterImage)}
+          <Text style={styles.subheader}>{characterDialogue.join('\n\n')}</Text>
 
-        <TouchableOpacity style={styles.button} onPress={goBack}>
-            <Text style={styles.buttonText}>Back</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={goBack}>
+              <Text style={styles.buttonText}>Back</Text>
+          </TouchableOpacity>
         </View>
     ) 
     :
@@ -137,44 +164,31 @@ export default function Dialogue({route, navigation})
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#000',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    header: {
-      position: 'absolute', 
-      top: 40,
-      color: '#fff',
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
-    },
-    header1: {
-      position: 'absolute', 
-      top: 60,
-      color: '#fff',
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
-    },
-    header2: {
-      position: 'absolute',
-      top: 80,
-      color: '#fff',
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
-    },
-    header3: {
-      position: 'absolute',
-      top: 100,
-      color: '#fff',
-      fontSize: 24,
-      fontWeight: 'bold',
-      marginBottom: 20,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#000',
+    alignItems: 'center',
+    justifyContent: 'top',
+  },
+  header: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  subheader: {
+    marginTop: 20,
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 15,
+  },
+  subsubheader: {
+    color: '#fff',
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
     input: {
       backgroundColor: '#fff',
       paddingVertical: 10,
@@ -189,8 +203,6 @@ const styles = StyleSheet.create({
       paddingHorizontal: 20,
       borderRadius: 10,
       marginBottom: 10,
-      position: 'absolute', 
-      top: 140,
     },
     buttonText: {
       color: '#000',

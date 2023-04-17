@@ -208,8 +208,8 @@ export default function GameMap({route, navigation}){
         setRevLatitude(latitudeDiff);
         setRevLongitude(longitudeDiff);
 
-        console.log("New Rev Location: "+currentLocation.coords.latitude+" "+currentLocation.coords.longitude + " " ,latitudeDiff + " " + longitudeDiff);
-        console.log("Current Destination: "+latitudeDestination+" "+longitudeDestination);
+        //console.log("New Rev Location: "+currentLocation.coords.latitude+" "+currentLocation.coords.longitude + " " ,latitudeDiff + " " + longitudeDiff);
+        //console.log("Current Destination: "+latitudeDestination+" "+longitudeDestination);
         updateLocation();
       }
     }, [currentLocation]);

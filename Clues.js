@@ -13,7 +13,7 @@ export default function Clues({route, navigation})
     const[unlockedCharactersData, setUnlockedCharactersData] = useState(null);
     const[currentCharacter, setCurrentCharacter] = useState(null);
 
-    const intro = require('./assets/Chef.png');
+    const intro = require('./assets/rev.png');
     const builder = require('./assets/Builder.png');
     const architect = require('./assets/Architect.png');
     const librarian = require('./assets/Librarian.png');
