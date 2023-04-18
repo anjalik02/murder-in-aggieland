@@ -29,7 +29,7 @@ export default function App() {
         <Stack.Screen name="Log In" component={LogIn} />
         <Stack.Screen name="How to Play" component={HowToPlay} />
         <Stack.Screen name="User Home" component={UserHome} options={{headerShown: false}}/>
-        <Stack.Screen name="Intro" component={Intro} />
+        <Stack.Screen name="Introduction" component={Intro} />
         <Stack.Screen name ="Map" component = {GameMap} />
         <Stack.Screen name="Dialogue" component = {Dialogue} />
         <Stack.Screen name="Clues" component = {Clues} />
