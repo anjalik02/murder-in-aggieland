@@ -85,8 +85,8 @@ export default function Guess({route, navigation}) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.header}>Guess the Killer
-        </Text>
+        <Text style={styles.header}>Guess the Killer</Text>
+        <Text style={styles.subheader}>You have two guesses.</Text>
 
         <TouchableOpacity
             style={[styles.characterContainer, currentCharacter === 1 && styles.selectedCharacterContainer]}
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginTop: 10,
   },
   button: {
     backgroundColor: '#fff',

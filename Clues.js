@@ -146,15 +146,11 @@ export default function Clues({route, navigation})
           </Text>
 
           {unlockedCharactersData.descriptions.map((description, index) => {
-            const isSelected = currentCharacter === index;
             if (index <= gamePriority) {
               return (
                 <TouchableOpacity
                   key={index}
-                  style={[
-                    styles.characterContainer,
-                    isSelected && styles.selectedCharacterContainer,
-                  ]}
+                  style={[styles.characterContainer,]}
                   onPress={() => selectCurrent(index)}
                 >
                   <Image source={getImage(index)} style={styles.characterImage} />
@@ -174,10 +170,7 @@ export default function Clues({route, navigation})
               return (
                 <TouchableOpacity
                   key={index}
-                  style={[
-                    styles.characterContainer,
-                    isSelected && styles.selectedCharacterContainer,
-                  ]}
+                  style={[styles.characterContainer]}
                   onPress={() => selectCurrent(index)}
                 >
                   <Image source={getImage(index)} style={styles.characterImage} />
@@ -327,10 +320,6 @@ const styles = StyleSheet.create({
       padding: 10,
       margin: 10,
       width: "90%",
-    },
-    selectedCharacterContainer: {
-      borderColor: 'red',
-      borderWidth: 2,
     },
     characterImage: {
       width: 80,
