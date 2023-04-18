@@ -20,79 +20,6 @@ export default function Clues({route, navigation})
     const chef = require('./assets/Chef.png');
     const professor = require('./assets/Professor.png');
 
-    const handleGuess = async () =>
-    {
-      if(currentCharacter === null || currentCharacter === undefined)
-      {
-        alert("Please select a character.");
-        return;
-      }
-
-      console.log("GUESSING: "+(currentCharacter));
-      try 
-          {
-            const response = await fetch('https://murder-in-aggieland.herokuapp.com/API/game.php', 
-            {
-              method: 'POST',
-              headers: 
-              {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-              },
-              body: JSON.stringify(
-              {
-                functionName: "placeGuess",
-                user_id: user_id,
-                game_id: game_id,
-                character_guess_id: currentCharacter
-              })
-            });
-            const data = await response.json();
-
-            const winner = data.code === 0;
-
-            if(winner)
-            {
-              alert("Congratulations, you guessed the killer!");
-
-              navigation.navigate('User Home', 
-              {
-                  user_id: user_id,
-                  username: username
-              });
-            }
-            else
-            {
-              if(data.code === 1)
-                alert("Incorrect Guess");
-              else
-              {
-                alert("You lost. Too many incorrect guesses. Feel free to play again.");
-
-                navigation.navigate('User Home', 
-                {
-                    user_id: user_id,
-                    username: username
-                });
-              }
-            }
-          } 
-          catch (error) 
-          {
-            console.error('Error:', error);
-          }
-    }
-
-    const goBack = async () => 
-    {
-        navigation.navigate('Map', 
-        {
-            user_id: user_id,
-            username: username,
-            game_id: game_id,
-        });
-    }
-
     const selectCurrent = async (index) =>
     {
       if(index != 0)
@@ -346,10 +273,6 @@ export default function Clues({route, navigation})
             </View>
           </View>
 
-          <TouchableOpacity style={styles.placeGuessButton} onPress={() => handleGuess()}>
-            <Text style={styles.placeGuessButtonText}>Place Guess</Text>
-          </TouchableOpacity>
-
         </View>
       </ScrollView>
     ) : (
@@ -436,19 +359,6 @@ const styles = StyleSheet.create({
       color: "#fff",
       fontSize: 12,
       fontStyle: "italic",
-    },
-    placeGuessButton: {
-      backgroundColor: "red",
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      borderRadius: 10,
-      marginTop: 10,
-      marginBottom: 50,
-    },
-    placeGuessButtonText: {
-      color: "#000",
-      fontSize: 18,
-      fontWeight: "bold",
     },
     table: {
       display: 'flex',

@@ -11,6 +11,7 @@ import Intro from './Intro';
 import GameMap from './GameMap';
 import Dialogue from './Dialogue';
 import Clues from './Clues';
+import Guess from './Guess';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ export default function App() {
         <Stack.Screen name ="Map" component = {GameMap} />
         <Stack.Screen name="Dialogue" component = {Dialogue} />
         <Stack.Screen name="Clues" component = {Clues} />
+        <Stack.Screen name="Guess" component = {Guess} />
 
       </Stack.Navigator>
       <StatusBar style="auto" />

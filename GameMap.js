@@ -108,6 +108,16 @@ export default function GameMap({route, navigation}){
       }); 
     }
 
+    const Guess = async () =>
+    {
+      navigation.navigate('Guess', 
+      {
+        user_id: user_id,
+        username: username,
+        game_id: game_id
+      }); 
+    }
+
     const handleArrival = async () => 
     {
       try 
@@ -307,6 +317,10 @@ export default function GameMap({route, navigation}){
 
         <TouchableOpacity style={styles.button} onPress={Clues}>
           <Text style={styles.buttonText}>Clues</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button} onPress={Guess}>
+          <Text style={styles.buttonText}>Guess the Killer</Text>
         </TouchableOpacity>
         
         <Image 
