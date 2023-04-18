@@ -292,16 +292,13 @@ export default function GameMap({route, navigation}){
           </Text>
         } 
         <Text style={styles.subsubheader}>
-          Current Latitude: {currentLocation.coords.latitude}
+          Current Location: ({Math.round(currentLocation.coords.latitude * 100) / 100}, {Math.round(currentLocation.coords.longitude * 100) / 100})
          </Text>
          <Text style={styles.subsubheader}>
-          Current Longitude:{currentLocation.coords.longitude}
+          Destination Latitude Range: [{Math.round(latitudeDestination * 100) / 100 - 0.1}, {Math.round(latitudeDestination * 100) / 100 + 0.1}]
          </Text>
          <Text style={styles.subsubheader}>
-          Destination Latitude: {longitudeDestination}
-         </Text>
-         <Text style={styles.subsubheader}>
-          Destination  Longitude: {latitudeDestination}
+          Destination Longitude Range: [{Math.round(longitudeDestination * 100) / 100 - 0.1}, {Math.round(longitudeDestination * 100) / 100 + 0.1}]
          </Text>
 
         <TouchableOpacity style={styles.button} onPress={handleArrival}>
