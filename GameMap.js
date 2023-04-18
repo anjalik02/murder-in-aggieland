@@ -201,8 +201,8 @@ export default function GameMap({route, navigation}){
     {
       if(currentLocation != null)
       {
-        let latitude = 30.614982; 
-        let longitude = -96.335165; 
+        let latitude = 30.614871; 
+        let longitude = -96.335065; 
         let latitudeDiff = ((currentLocation.coords.latitude- latitude) / 0.007182) * 350 
         let longitudeDiff = (((currentLocation.coords.longitude-longitude) * -1)/0.009818) * 350
         setRevLatitude(latitudeDiff);
@@ -292,13 +292,13 @@ export default function GameMap({route, navigation}){
           </Text>
         } 
         <Text style={styles.subsubheader}>
-          Current Location: ({Math.round(currentLocation.coords.latitude * 100) / 100}, {Math.round(currentLocation.coords.longitude * 100) / 100})
+          Current Location: ({Math.round(currentLocation.coords.latitude * 10000) / 10000}, {Math.round(currentLocation.coords.longitude * 10000) / 10000})
          </Text>
          <Text style={styles.subsubheader}>
-          Destination Latitude Range: [{Math.round(latitudeDestination * 100) / 100 - 0.1}, {Math.round(latitudeDestination * 100) / 100 + 0.1}]
+          Destination Latitude Range: [{Math.round(latitudeDestination * 1000) / 1000 - 0.0001}, {Math.round(latitudeDestination * 1000) / 1000 + 0.0001}]
          </Text>
          <Text style={styles.subsubheader}>
-          Destination Longitude Range: [{Math.round(longitudeDestination * 100) / 100 - 0.1}, {Math.round(longitudeDestination * 100) / 100 + 0.1}]
+          Destination Longitude Range: [{Math.round(longitudeDestination * 1000) / 1000 + 0.0001}, {Math.round(longitudeDestination * 1000) / 1000 - 0.0001}]
          </Text>
 
         <TouchableOpacity style={styles.button} onPress={handleArrival}>

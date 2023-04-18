@@ -203,6 +203,10 @@ export default function Clues({route, navigation})
     return unlockedCharactersData !== null ? (
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
         <View style={styles.container}>
+          <Text style={styles.header}>
+            Dialogue
+          </Text>
+
           {unlockedCharactersData.descriptions.map((description, index) => {
             const isSelected = currentCharacter === index;
             if (index <= gamePriority) {
@@ -256,6 +260,41 @@ export default function Clues({route, navigation})
             }
           })}
 
+          <Text style={styles.header}>
+            Schedules
+          </Text>
+
+          <View style={styles.schedulecontainer}>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { fontWeight: 'bold', color: '#fff' }]}>Job Title</Text>
+              <Text style={[styles.cell, { fontWeight: 'bold', color: '#fff' }]}>Work Hours</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>Builder</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>Mon-Fri 9 AM to 5 PM</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>Professor</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>T/TH 4 PM to 10:20 PM</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>Cook</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>Tues-Fri 12 PM to 10 PM</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>Architect</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>MWF 8 AM to 5 PM</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>Librarian</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>Mon-Fri 12 PM to 10 PM</Text>
+            </View>
+          </View>
+
+          <Text style={styles.header}>
+            Vehicle Information
+          </Text>
+
           <TouchableOpacity style={styles.placeGuessButton} onPress={() => handleGuess()}>
             <Text style={styles.placeGuessButtonText}>Place Guess</Text>
           </TouchableOpacity>
@@ -279,6 +318,13 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "flex-start",
       paddingTop: 50,
+    },
+    schedulecontainer: {
+      flex: 1,
+      backgroundColor: "#000",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      paddingBottom: 20,
     },
     header: {
       color: "#fff",
@@ -353,5 +399,22 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: "bold",
     },
-
+    table: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+      paddingVertical: 10
+    },
+    row: {
+      flexDirection: 'row',
+    },
+    cell: {
+      flex: 1,
+      padding: 10,
+      borderWidth: 1,
+      borderColor: '#fff',
+      textAlign: 'center',
+    },
   });
