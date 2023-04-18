@@ -63,7 +63,18 @@ export default function Clues({route, navigation})
             }
             else
             {
-              alert("Incorrect Guess");
+              if(data.code === 1)
+                alert("Incorrect Guess");
+              else
+              {
+                alert("You lost. Too many incorrect guesses. Feel free to play again.");
+
+                navigation.navigate('User Home', 
+                {
+                    user_id: user_id,
+                    username: username
+                });
+              }
             }
           } 
           catch (error) 
