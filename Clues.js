@@ -266,7 +266,7 @@ export default function Clues({route, navigation})
 
           <View style={styles.schedulecontainer}>
             <View style={styles.row}>
-              <Text style={[styles.cell, { fontWeight: 'bold', color: '#fff' }]}>Job Title</Text>
+              <Text style={[styles.cell, { fontWeight: 'bold', color: '#fff' }]}>Character</Text>
               <Text style={[styles.cell, { fontWeight: 'bold', color: '#fff' }]}>Work Hours</Text>
             </View>
             <View style={styles.row}>
@@ -292,8 +292,35 @@ export default function Clues({route, navigation})
           </View>
 
           <Text style={styles.header}>
-            Vehicle Information
+            Vehicle Records
           </Text>
+
+          <View style={styles.schedulecontainer}>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { fontWeight: 'bold', color: '#fff' }]}>Character</Text>
+              <Text style={[styles.cell, { fontWeight: 'bold', color: '#fff' }]}>Parking Method</Text>
+              <Text style={[styles.cell, { fontWeight: 'bold', color: '#fff' }]}>Location</Text>
+              <Text style={[styles.cell, { fontWeight: 'bold', color: '#fff' }]}>Time</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>Professor</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>Car</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>West Campus Garage</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>2 PM - 11 PM</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>Cook</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>Veo Bike</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>SBISA</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>10:15 PM -10:40 PM</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>Librarian</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>Missing parking ticket</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>Northside Garage</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>-</Text>
+            </View>
+          </View>
 
           <TouchableOpacity style={styles.placeGuessButton} onPress={() => handleGuess()}>
             <Text style={styles.placeGuessButtonText}>Place Guess</Text>
