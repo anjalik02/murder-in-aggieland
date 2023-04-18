@@ -322,6 +322,19 @@ export default function Clues({route, navigation})
             </View>
           </View>
 
+          <Text style={styles.header}>
+            News
+          </Text>
+
+          <View style={styles.schedulecontainer}>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>Aggie murdered last Tuesday! Killer on the loose!</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={[styles.cell, { color: '#fff' }]}>New extension to Zachry Education Complex to open next Monday!</Text>
+            </View>
+          </View>
+
           <TouchableOpacity style={styles.placeGuessButton} onPress={() => handleGuess()}>
             <Text style={styles.placeGuessButtonText}>Place Guess</Text>
           </TouchableOpacity>
