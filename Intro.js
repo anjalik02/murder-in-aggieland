@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Row } from 'react-native';
 
 export default function Intro({route, navigation}) {
   const{user_id, username, game_id} = route.params; 
@@ -8,37 +8,51 @@ export default function Intro({route, navigation}) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.box}>
-            <Text style={styles.subheader}>Welcome to Aggieland, home of the 12th man! 
-            We're glad you came because we really need your help.
-            </Text>
+        <Text style={styles.subheader}>Welcome to Aggieland, home of the 12th man! 
+        We're glad you came because we really need your help.
+        </Text>
 
-            <Text style={styles.subheader}>
-                Recently, we had a horrific accident on camp us. An aggie was killed at 
-                10:10 PM on Tuesday and the body was found by the Chem fountain. It is 
-                truly a tragedy and we mourn the lost aggie. Your job, should you choose 
-                to accept it, will be to find the killer before the day ends. 
-                If not, the killer could strike again. It's up to you to save Aggieland.
-            </Text>
+        <Text style={styles.subheader}>
+            Recently, we had a horrific accident on camp us. An aggie was killed at 
+            10:10 PM on Tuesday and the body was found by the Chem fountain. It is 
+            truly a tragedy and we mourn the lost aggie. Your job, should you choose 
+            to accept it, will be to find the killer before the day ends. 
+            If not, the killer could strike again. It's up to you to save Aggieland.
+        </Text>
 
-            <Text style={styles.subheader}>
-                Will you accept the mission?
-            </Text>
+        <Text style={styles.subheader}>
+            Will you accept the mission?
+        </Text>
 
-            <Text style={styles.subheader}>
-                Thank you for accepting this challenge! To begin, you must start at 
-                Zachry Education Complex. Once you reach there, the story can begin.
-            </Text>
+        <Text style={styles.subheader}>
+            Thank you for accepting this challenge! To begin, you must start at 
+            Zachry Education Complex. Once you reach there, the story can begin.
+        </Text>
 
+        <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>
             <TouchableOpacity 
-                style={[styles.button, {marginTop: 40, backgroundColor: '#ff0000'}]}
+                style={[styles.button, {marginTop: 40, backgroundColor: '#ff0000', width: '45%', marginRight: 10}]}
+                onPress={() =>  navigation.navigate('User Home', {
+                    user_id: user_id,
+                    username: username,
+                    game_id: game_id
+                })}
+            >
+                <Text style={styles.buttonText}>No</Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={[styles.button, {marginTop: 40, backgroundColor: '#ff0000', width: '45%', marginLeft: 10}]}
                 onPress={() =>  navigation.navigate('Map', {
                     user_id: user_id,
                     username: username,
                     game_id: game_id
-                  })}
+                })}
             >
-                <Text style={styles.buttonText}>Continue</Text>
+                <Text style={styles.buttonText}>Yes</Text>
             </TouchableOpacity>
+            </View>
+
+
         <StatusBar style="auto" />
       </View>
     </ScrollView>
