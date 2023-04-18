@@ -257,12 +257,40 @@ export default function GameMap({route, navigation}){
       }
     }, [longitudeDestination, latitudeDestination]);
 
-    return longitudeDestination!== null && latitudeDestination !== null && currentLocation !== null && longitudeDestination !== undefined && latitudeDestination !== undefined && currentLocation !== undefined ? 
+    return longitudeDestination!== null && latitudeDestination !== null && currentLocation !== null && longitudeDestination !== undefined && latitudeDestination !== undefined && currentLocation !== undefined && gamePriority !== null ? 
     (
         <View style={styles.container}>
-        <Text style={styles.subheader}>
-          Walk around campus to find clues...
-        </Text>
+        {gamePriority === "0" &&
+          <Text style={styles.subheader}>
+            Thank you for accepting this challenge! To begin, you must start at 
+            Zachry Education Complex. Once you reach there, the story can begin.
+          </Text>
+        }
+        {gamePriority === "1" &&
+          <Text style={styles.subheader}>
+            Head to Zachry Education Complex.
+          </Text>
+        }
+        {gamePriority === "2" &&
+          <Text style={styles.subheader}>
+            Head to John R. Blocker.
+          </Text>
+        }
+        {gamePriority === "3" &&
+          <Text style={styles.subheader}>
+            Head to SBISA Dining Hall.
+          </Text>
+        } 
+        {gamePriority === "4" &&
+          <Text style={styles.subheader}>
+            Head to the Architecture Quad.
+          </Text>
+        } 
+        {gamePriority === "5" &&
+          <Text style={styles.subheader}>
+            Head to Sterling C. Evans Library.
+          </Text>
+        } 
         <Text style={styles.subsubheader}>
           Current Latitude: {currentLocation.coords.latitude}
          </Text>

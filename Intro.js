@@ -24,11 +24,6 @@ export default function Intro({route, navigation}) {
             Will you accept the mission?
         </Text>
 
-        <Text style={styles.subheader}>
-            Thank you for accepting this challenge! To begin, you must start at 
-            Zachry Education Complex. Once you reach there, the story can begin.
-        </Text>
-
         <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>
             <TouchableOpacity 
                 style={[styles.button, {marginTop: 40, backgroundColor: '#ff0000', width: '45%', marginRight: 10}]}
