@@ -7,6 +7,7 @@ import CreateAccount from './CreateAccount';
 import LogIn from './LogIn';
 import HowToPlay from './HowToPlay';
 import UserHome from './UserHome';
+import Intro from './Intro';
 import GameMap from './GameMap';
 import Dialogue from './Dialogue';
 import Clues from './Clues';
@@ -27,9 +28,10 @@ export default function App() {
         <Stack.Screen name="Log In" component={LogIn} />
         <Stack.Screen name="How to Play" component={HowToPlay} />
         <Stack.Screen name="User Home" component={UserHome} options={{headerShown: false}}/>
-        <Stack.Screen name = "Map" component = {GameMap} />
-        <Stack.Screen name = "Dialogue" component = {Dialogue} />
-        <Stack.Screen name = "Clues" component = {Clues} />
+        <Stack.Screen name="Intro" component={Intro} />
+        <Stack.Screen name ="Map" component = {GameMap} />
+        <Stack.Screen name="Dialogue" component = {Dialogue} />
+        <Stack.Screen name="Clues" component = {Clues} />
 
       </Stack.Navigator>
       <StatusBar style="auto" />

@@ -28,7 +28,7 @@ export default function UserHome({route, navigation}) {
           alert("No game to resume.");
         }
         else{
-          navigation.navigate('Map', {
+          navigation.navigate('Intro', {
             user_id: user_id,
             username: username,
             game_id: data.game_ids[0]

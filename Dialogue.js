@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native';
 import axios from 'axios'; 
 import * as Location from 'expo-location';
 import {Image} from 'react-native' ;
@@ -20,16 +20,6 @@ export default function Dialogue({route, navigation})
     const librarian = require('./assets/Librarian.png');
     const chef = require('./assets/Chef.png');
     const professor = require('./assets/Professor.png');
-
-    const goBack = async () => 
-    {
-        navigation.navigate('Map', 
-        {
-            user_id: user_id,
-            username: username,
-            game_id: game_id,
-        });
-    }
 
     const populateCharacter = async () =>
     {
@@ -141,18 +131,15 @@ export default function Dialogue({route, navigation})
     // give the view a back button
     return characterDialogue !== null && characterImage !== null && characterName !== null ? 
     (
-        <View style={styles.container}>
-          <Image
-              source={getImage(gamePriority)}
-              style={{width: 200, height: 200}}
-            />
-            {console.log(characterImage)}
+      <View style={styles.container}>
+        <Image
+            source={getImage(gamePriority)}
+            style={{width: 200, height: 200}}
+          />
+        <ScrollView contentContainerStyle={styles.scrollViewContainer}>
           <Text style={styles.subheader}>{characterDialogue.join('\n\n')}</Text>
-
-          <TouchableOpacity style={styles.button} onPress={goBack}>
-              <Text style={styles.buttonText}>Back</Text>
-          </TouchableOpacity>
-        </View>
+        </ScrollView>
+      </View>
     ) 
     :
     (
@@ -169,6 +156,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'top',
+  },
+  scrollViewContainer: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingHorizontal: 20,
   },
   header: {
     color: '#fff',
