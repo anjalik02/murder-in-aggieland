@@ -261,6 +261,8 @@ export default function GameMap({route, navigation}){
 
     useEffect(() => 
     {
+      
+      
       if(longitudeDestination != null && latitudeDestination != null)
       {
         console.log("Current dest "+longitudeDestination + " " + latitudeDestination);
@@ -300,10 +302,19 @@ export default function GameMap({route, navigation}){
           <Text style={styles.subheader}>
             Head to Sterling C. Evans Library.
           </Text>
-        } 
+        }
+        
+        {(Math.round(currentLocation.coords.latitude * 10000) / 10000) < 30.622 && currentLocation.coords.latitude > 30.61 &&  currentLocation.coords.longitude < -96.334 &&  currentLocation.coords.longitude > -96.344 && 
         <Text style={styles.subsubheader}>
           Current Location: ({Math.round(currentLocation.coords.latitude * 10000) / 10000}, {Math.round(currentLocation.coords.longitude * 10000) / 10000})
-         </Text>
+         </Text>} 
+
+        
+         {!((Math.round(currentLocation.coords.latitude * 10000) / 10000) < 30.622 && currentLocation.coords.latitude > 30.61 &&  currentLocation.coords.longitude < -96.334 &&  currentLocation.coords.longitude > -96.344) && 
+        <Text style={styles.subsubheader}>
+            Bro u not on the map
+         </Text>} 
+
          <Text style={styles.subsubheader}>
           Destination Latitude Range: [{Math.round(latitudeDestination * 1000) / 1000 - 0.0001}, {Math.round(latitudeDestination * 1000) / 1000 + 0.0001}]
          </Text>
