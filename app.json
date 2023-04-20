@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "murder-in-aggieland",
-    "slug": "murder-in-aggieland",
+    "name": "Murder in Aggieland",
+    "slug": "murderInAggieland",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.murderInAggieland"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +29,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "39eb7505-b306-453c-b6a8-f30591dcea7a"
+      }
     }
   }
 }
