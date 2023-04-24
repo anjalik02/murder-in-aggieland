@@ -312,7 +312,7 @@ export default function GameMap({route, navigation}){
         
          {!((Math.round(currentLocation.coords.latitude * 10000) / 10000) < 30.622 && currentLocation.coords.latitude > 30.61 &&  currentLocation.coords.longitude < -96.334 &&  currentLocation.coords.longitude > -96.344) && 
         <Text style={styles.subsubheader}>
-            Bro u not on the map
+            You are not on campus.
          </Text>} 
 
          <Text style={styles.subsubheader}>
