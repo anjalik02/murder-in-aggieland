@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   subheader: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontStyle: 'italic',
     marginBottom: 10,
     width: '80%'
   },
