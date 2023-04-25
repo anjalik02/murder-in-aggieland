@@ -275,32 +275,32 @@ export default function GameMap({route, navigation}){
         {gamePriority === "0" &&
           <Text style={styles.subheader}>
             Thank you for accepting this challenge! To begin, you must start at 
-            Zachry Education Complex. Once you reach there, the story can begin.
+            Zachry Education Complex. Once you reach there, the story can begin. Press "I've Arrived"
           </Text>
         }
         {gamePriority === "1" &&
           <Text style={styles.subheader}>
-            Head to Zachry Education Complex.
+            Walk to Zachry Education Complex.
           </Text>
         }
         {gamePriority === "2" &&
           <Text style={styles.subheader}>
-            Head to John R. Blocker.
+            Walk to John R. Blocker.
           </Text>
         }
         {gamePriority === "3" &&
           <Text style={styles.subheader}>
-            Head to SBISA Dining Hall.
+            Walk to SBISA Dining Hall.
           </Text>
         } 
         {gamePriority === "4" &&
           <Text style={styles.subheader}>
-            Head to the Architecture Quad.
+            Walk to the Architecture Quad.
           </Text>
         } 
         {gamePriority === "5" &&
           <Text style={styles.subheader}>
-            Head to Sterling C. Evans Library.
+            Walk to Sterling C. Evans Library.
           </Text>
         }
         
