@@ -73,7 +73,7 @@ export default function GameMap({route, navigation}){
         }
         else
         {
-          navigation.navigate('Clues', 
+          navigation.navigate('Guess', 
           {
             user_id: user_id,
             username: username,

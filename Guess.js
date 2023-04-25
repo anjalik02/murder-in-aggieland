@@ -12,6 +12,23 @@ export default function Guess({route, navigation}) {
   const chef = require('./assets/Chef.png');
   const professor = require('./assets/Professor.png');
 
+  function handleHome() {
+    navigation.navigate('User Home', 
+      {
+          user_id: user_id,
+          username: username
+      });
+  }
+
+  function handleClues() {
+    navigation.navigate('Clues', 
+      {
+        user_id: user_id,
+        username: username,
+        game_id: game_id
+      });
+  }
+
   const handleGuess = async () =>
     {
       if(currentCharacter === null || currentCharacter === undefined)
@@ -45,7 +62,7 @@ export default function Guess({route, navigation}) {
 
             if(winner)
             {
-              alert("Congratulations, you guessed the killer!");
+              alert("Congratulations, you guessed the killer! \n The builder claims to be working on the fountain at 10 PM though her hours end by 5 PM. She would also be too busy with the new Zach expansion to be working on anything else. \n\n \"I'm so sorry! I didn't mean to kill the poor Aggie. It was an accident! I was walking back home with my ladder and accidently struck the poor student! Please don't arrest me!\"");
 
               navigation.navigate('User Home', 
               {
@@ -144,9 +161,17 @@ export default function Guess({route, navigation}) {
             </View>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.placeGuessButton} onPress={() => handleGuess()}>
-            <Text style={styles.placeGuessButtonText}>Place Guess</Text>
-        </TouchableOpacity>
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity style={styles.button} onPress={() => handleHome()}>
+              <Text style={styles.buttonText}>Home</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={() => handleClues()}>
+              <Text style={styles.buttonText}>Clues</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.placeGuessButton} onPress={() => handleGuess()}>
+              <Text style={styles.placeGuessButtonText}>Place Guess</Text>
+          </TouchableOpacity>
+        </View>
 
         <StatusBar style="auto" />
     </ScrollView>
@@ -185,8 +210,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
-    marginBottom: 10,
-    width: '90%',
+    marginTop: 10,
+    marginBottom: 50,
+    marginLeft: 5,
+    marginRight: 5
   },
   buttonText: {
     color: '#000',
@@ -201,6 +228,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 10,
     marginBottom: 50,
+    marginLeft: 5,
+    marginRight: 5
   },
   placeGuessButtonText: {
     color: "#000",

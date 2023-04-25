@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 export default function CreateAccount({ navigation }) {
   const [username, setUsername] = useState('');
@@ -39,49 +39,50 @@ export default function CreateAccount({ navigation }) {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
-      <View style={styles.box}>
-
-        <Text style={styles.header}>Create Account</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          onChangeText={setEmail}
-          value={email}
-          placeholderTextColor="#9B9B9B"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          onChangeText={setUsername}
-          value={username}
-          placeholderTextColor="#9B9B9B"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry={true}
-          placeholderTextColor="#9B9B9B"
-        />
-        <TouchableOpacity 
-          style={styles.button}
-          onPress={handleCreateAccount}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.buttonText}>Create Account</Text>
-        </TouchableOpacity>
-        <StatusBar style="auto" />
-      </View>
-    </KeyboardAvoidingView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding">
+        <View style={styles.box}>
+          <Text style={styles.header}>Create Account</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            onChangeText={setEmail}
+            value={email}
+            placeholderTextColor="#9B9B9B"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            onChangeText={setUsername}
+            value={username}
+            placeholderTextColor="#9B9B9B"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry={true}
+            placeholderTextColor="#9B9B9B"
+          />
+          <TouchableOpacity 
+            style={styles.button}
+            onPress={handleCreateAccount}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.buttonText}>Create Account</Text>
+          </TouchableOpacity>
+          <StatusBar style="auto" />
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#272727',
+    backgroundColor: '#1a1a1a',
     alignItems: 'center',
     justifyContent: 'center',
   },

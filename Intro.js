@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Row } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 
 export default function Intro({route, navigation}) {
   const{user_id, username, game_id} = route.params; 
@@ -8,6 +8,7 @@ export default function Intro({route, navigation}) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.box}>
+        <Image source={require('./assets/blood-splatter.png')} style={styles.image} resizeMode="contain" />
         <Text style={styles.subheader}>Welcome to Aggieland, home of the 12th man! 
         We're glad you came because we really need your help.
         </Text>
@@ -57,7 +58,7 @@ export default function Intro({route, navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#242424',
+    backgroundColor: '#1a1a1a',
     alignItems: 'center',
     justifyContent: 'center',
     textAlign: 'center'
@@ -94,5 +95,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  image: {
+    height: 150,
+    width: 150,
   },
 });
