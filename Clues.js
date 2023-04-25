@@ -259,7 +259,7 @@ export default function Clues({route, navigation})
 
           <View style={styles.schedulecontainer}>
             <View style={styles.row}>
-              <Text style={[styles.cell, { color: '#fff' }]}>Aggie murdered last Tuesday! Killer on the loose!</Text>
+              <Text style={[styles.cell, { color: '#fff' }]}>Aggie murdered last Tuesday at 10:10 PM by the Chem Fountain! Killer on the loose!</Text>
             </View>
             <View style={styles.row}>
               <Text style={[styles.cell, { color: '#fff' }]}>New extension to Zachry Education Complex to open next Monday!</Text>
