@@ -304,13 +304,13 @@ export default function GameMap({route, navigation}){
           </Text>
         }
         
-        {(Math.round(currentLocation.coords.latitude * 10000) / 10000) < 30.622 && currentLocation.coords.latitude > 30.61 &&  currentLocation.coords.longitude < -96.334 &&  currentLocation.coords.longitude > -96.344 && 
+        {(Math.round(currentLocation.coords.latitude * 10000) / 10000) < 30.627 && currentLocation.coords.latitude > 30.60 &&  currentLocation.coords.longitude < -96.334 &&  currentLocation.coords.longitude > -96.344 && 
         <Text style={styles.subsubheader}>
           Current Location: ({Math.round(currentLocation.coords.latitude * 10000) / 10000}, {Math.round(currentLocation.coords.longitude * 10000) / 10000})
          </Text>} 
 
         
-         {!((Math.round(currentLocation.coords.latitude * 10000) / 10000) < 30.622 && currentLocation.coords.latitude > 30.61 &&  currentLocation.coords.longitude < -96.334 &&  currentLocation.coords.longitude > -96.344) && 
+         {!((Math.round(currentLocation.coords.latitude * 10000) / 10000) < 30.627 && currentLocation.coords.latitude > 30.60 &&  currentLocation.coords.longitude < -96.334 &&  currentLocation.coords.longitude > -96.344) && 
         <Text style={styles.subsubheader}>
             You are not on campus.
          </Text>} 
