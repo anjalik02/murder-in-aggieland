@@ -14,7 +14,7 @@ export default function Intro({route, navigation}) {
         </Text>
 
         <Text style={styles.subheader}>
-            Recently, we had a horrific accident on camp us. An aggie was killed at 
+            Recently, we had a horrific accident on campus. An aggie was killed at 
             10:10 PM on Tuesday and the body was found by the Chem fountain. It is 
             truly a tragedy and we mourn the lost aggie. Your job, should you choose 
             to accept it, will be to find the killer before the day ends. 
