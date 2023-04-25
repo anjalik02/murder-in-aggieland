@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import CreateAccount from './CreateAccount';
@@ -45,6 +45,7 @@ function HomeScreen({ navigation }) {
   return (
     <View style={styles.background}>
       <View style={styles.container}>
+        <Image source={require('./assets/knife.png')} style={styles.image} resizeMode="contain" />
         <Text style={styles.header}>Murder in Aggieland</Text>
         <TouchableOpacity
           style={styles.button}
@@ -76,7 +77,7 @@ function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    backgroundColor: '#242424',
+    backgroundColor: '#1a1a1a',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -110,5 +111,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  image: {
+    height: 150,
+    width: 150,
+    marginBottom: 10,
   },
 });

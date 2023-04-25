@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 export default function LogIn({ navigation }) {
   const [username, setUsername] = useState('');
@@ -44,36 +44,39 @@ export default function LogIn({ navigation }) {
   }
 
   return (
-    <KeyboardAvoidingView 
-      style={styles.container}
-    >
-      <View style={styles.box}>
-        <Text style={styles.header}>Enter Credentials</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          onChangeText={setUsername}
-          value={username}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry={true}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Log In</Text>
-        </TouchableOpacity>
-      </View>
-      <StatusBar style="auto" />
-    </KeyboardAvoidingView>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView 
+        style={styles.container}
+        behavior="padding"
+      >
+        <View style={styles.box}>
+          <Text style={styles.header}>Enter Credentials</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            onChangeText={setUsername}
+            value={username}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry={true}
+          />
+          <TouchableOpacity style={styles.button} onPress={handleLogin}>
+            <Text style={styles.buttonText}>Log In</Text>
+          </TouchableOpacity>
+        </View>
+        <StatusBar style="auto" />
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#242424',
+      backgroundColor: '#1a1a1a',
       alignItems: 'center',
       justifyContent: 'center',
     },
