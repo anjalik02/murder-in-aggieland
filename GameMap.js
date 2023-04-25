@@ -275,7 +275,7 @@ export default function GameMap({route, navigation}){
         {gamePriority === "0" &&
           <Text style={styles.subheader}>
             Thank you for accepting this challenge! To begin, you must start at 
-            Zachry Education Complex. Once you reach there, the story can begin. Press "I've Arrived"
+            Zachry Education Complex. Once you reach there, the story can begin. Press "I've Arrived".
           </Text>
         }
         {gamePriority === "1" &&
