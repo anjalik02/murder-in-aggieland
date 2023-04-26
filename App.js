@@ -12,6 +12,7 @@ import GameMap from './GameMap';
 import Dialogue from './Dialogue';
 import Clues from './Clues';
 import Guess from './Guess';
+import 'react-native-gesture-handler';
 
 const Stack = createStackNavigator();
 
