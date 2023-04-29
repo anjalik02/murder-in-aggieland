@@ -5,6 +5,45 @@ import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 export default function UserHome({route, navigation}) {
   const { user_id, username } = route.params;
 
+  const deleteUser = () => 
+  {
+    Alert.alert(
+      "Delete Account",
+      "Are you sure you want to delete your account? This action cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => 
+        {
+          fetch('https://murder-in-aggieland.herokuapp.com/API/users.php', 
+          {
+              method: 'POST',
+              headers: 
+              {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+              },
+              body: JSON.stringify(
+              {
+                  functionName: "deleteAccount",
+                  user_id: user_id
+              })
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            alert("Successful account deletion.");
+            navigation.navigate('Home');
+          })
+          .catch(error => {console.error('Error:', error);});
+        }
+        }
+      ]
+    );
+  }
+
   const returnCurrentGames = () => {
     const params = new URLSearchParams(
       {
@@ -163,6 +202,13 @@ export default function UserHome({route, navigation}) {
           onPress={() => navigation.navigate('Home')}
         >
           <Text style={styles.buttonText}>Logout</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={[styles.button, {marginTop: 0, backgroundColor: '#ff0000'}]}
+          onPress={deleteUser}
+        >
+          <Text style={styles.buttonText}>Delete Account</Text>
         </TouchableOpacity>
 
         <StatusBar style="auto" />
