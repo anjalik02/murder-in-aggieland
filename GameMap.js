@@ -141,7 +141,7 @@ export default function GameMap({route, navigation}){
         });
         const data = await response.json();
         
-        let hasReached = true;
+        let hasReached = data.reached_location;
         // let hasReached = false;
 
         if(!hasReached)
@@ -206,8 +206,8 @@ export default function GameMap({route, navigation}){
       loc.coords.latitude = parseFloat(loc.coords.latitude.toFixed(6));
       loc.coords.longitude = parseFloat(loc.coords.longitude.toFixed(6));
 
-      loc.coords.latitude = 30.6200987;
-      loc.coords.longitude = -96.3420;
+      // loc.coords.latitude = 30.6200987;
+      // loc.coords.longitude = -96.3420;
       setCurrentLocation(loc);
     }
 
