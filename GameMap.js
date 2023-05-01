@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, KeyboardAvoidingView, Switch } from 'react-native';
 import axios from 'axios'; 
 import * as Location from 'expo-location';
 import {Image} from 'react-native' ;
@@ -15,6 +15,7 @@ export default function GameMap({route, navigation}){
     const[longitudeDestination, setLongitudeDestination] = useState(null);
     const[latitudeDestination, setLatitudeDestination] = useState(null);
     const[gamePriority, setGamePriority] = useState(null);
+    const [useCurrentLocation, setUseCurrentLocation] = useState(true);
     const isFocused = useIsFocused();
 
     const getGamePriority =  async () =>
@@ -141,8 +142,8 @@ export default function GameMap({route, navigation}){
         });
         const data = await response.json();
         
-        let hasReached = data.reached_location;
-        // let hasReached = false;
+        let hasReached;
+        useCurrentLocation ? hasReached = data.reached_location : hasReached = true;
 
         if(!hasReached)
           alert("You have not reached the building's location.")
@@ -337,6 +338,14 @@ export default function GameMap({route, navigation}){
         <TouchableOpacity style={styles.button} onPress={Guess}>
           <Text style={styles.buttonText}>Guess the Killer</Text>
         </TouchableOpacity>
+
+        <View style={styles.toggleContainer}>
+          <Text style={styles.toggleLabel}>Use Current Location</Text>
+          <Switch
+            value={useCurrentLocation}
+            onValueChange={(value) => setUseCurrentLocation(value)}
+          />
+        </View>
         
         <Image 
         source={require('./assets/Design.png')} 
@@ -366,6 +375,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#000',
       alignItems: 'center',
       justifyContent: 'top',
+      paddingHorizontal: 10
     },
     header: {
       color: '#fff',
@@ -396,14 +406,26 @@ const styles = StyleSheet.create({
     },
     button: {
       backgroundColor: '#fff',
-      paddingVertical: 10,
-      paddingHorizontal: 20,
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingHorizontal: 8,
       borderRadius: 10,
       marginBottom: 10,
+      height: 40
     },
     buttonText: {
       color: '#000',
-      fontSize: 18,
+      fontSize: 20,
+      fontWeight: 'bold',
+    },
+    toggleContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 10,
+    },
+    toggleLabel: {
+      marginRight: 10,
+      color: '#fff',
       fontWeight: 'bold',
     },
   });
