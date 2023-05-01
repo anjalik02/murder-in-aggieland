@@ -278,7 +278,7 @@ export default function GameMap({route, navigation}){
     (
         <View style={styles.container}>
         {gamePriority === "0" &&
-          <Text style={styles.subheader}>
+          <Text style={styles.subsubheader2}>
             Thank you for accepting this challenge! To begin, you must start at 
             Zachry Education Complex. Once you reach there, the story can begin. Press "I've Arrived".
           </Text>
@@ -389,6 +389,13 @@ const styles = StyleSheet.create({
       fontSize: 18,
       fontWeight: 'bold',
       marginBottom: 15,
+    },
+    subsubheader2: {
+      color: '#fff',
+      fontSize: 12,
+      fontWeight: 'bold',
+      marginBottom: 10,
+      marginTop: 10
     },
     subsubheader: {
       color: '#fff',
