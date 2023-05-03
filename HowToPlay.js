@@ -20,6 +20,8 @@ export default function HowToPlay() {
 
       <Text style={styles.header}>Good luck!</Text>
 
+      <Text style={styles.credits}>Created By: Vatsal Mistry, Rohan Talluri, Ashrita Vadlapatla, and Anjali Kumar for CSCE 445</Text>
+
       <StatusBar style="auto" />
     </ScrollView>
   );
@@ -42,6 +44,13 @@ const styles = StyleSheet.create({
   subheader: {
     color: '#fff',
     fontSize: 18,
+    fontStyle: 'italic',
+    marginBottom: 10,
+    width: '80%'
+  },
+  credits: {
+    color: '#fff',
+    fontSize: 12,
     fontStyle: 'italic',
     marginBottom: 10,
     width: '80%'
