@@ -146,7 +146,7 @@ export default function GameMap({route, navigation}){
         useCurrentLocation ? hasReached = data.reached_location : hasReached = true;
 
         if(!hasReached)
-          alert("You have not reached the building's location.")
+          alert("You have not reached the building's location. (Toggle the Use Current Location button to play off-campus.)")
         else
         {
           try 
